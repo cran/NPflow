@@ -12,10 +12,11 @@
 #'@param hyperG0 prior mixing distribution.
 #'
 #'@param a shape hyperparameter of the Gamma prior
-#'on the parameter of the Dirichlet Process.
+#'on the concentration parameter of the Dirichlet Process. Default is \code{0.0001}.
 #'
 #'@param b scale hyperparameter of the Gamma prior
-#'on the parameter of the Dirichlet Process.
+#'on the concentration parameter of the Dirichlet Process. Default is \code{0.0001}. If \code{0}, 
+#'then the concentration is fixed set to \code{a}.
 #'
 #'@param N number of MCMC iterations.
 #'
@@ -31,6 +32,10 @@
 #'@param diagVar logical flag indicating wether the variance of each cluster is
 #'estimated as a diagonal matrix, or as a full matrix.
 #'Default is \code{TRUE} (diagonal variance).
+#'
+#'@param use_variance_hyperprior logical flag indicating whether a hyperprior is added 
+#'for the variance parameter. Default is \code{TRUE} which decrease the impact of the variance prior
+#'on the posterior. \code{FALSE} is useful for using an informative prior.
 #'
 #'@param verbose logical flag indicating wether partition info is
 #'written in the console at each MCMC iteration.
@@ -181,9 +186,9 @@
 #'
 #'
 DPMGibbsSkewT_parallel <- function (Ncpus, type_connec,
-                                    z, hyperG0, a, b, N, doPlot=FALSE,
+                                    z, hyperG0, a=0.0001, b=0.0001, N, doPlot=FALSE,
                                     nbclust_init=30, plotevery=N/10,
-                                    diagVar=TRUE, verbose=FALSE,
+                                    diagVar=TRUE, use_variance_hyperprior=TRUE, verbose=FALSE,
                                     monitorfile="",
                                     ...){
 
@@ -345,11 +350,19 @@ DPMGibbsSkewT_parallel <- function (Ncpus, type_connec,
                 j <- fullCl[k]
                 obs_j <- which(c==j)
                 #cat("cluster ", j, ":\n")
-                U_SS[[j]] <- update_SSst(z=z[, obs_j, drop=FALSE], S=hyperG0,
-                                         ltn=ltn[obs_j], scale=sc[obs_j],
-                                         df=U_df[j],
-                                         hyperprior= list("Sigma"=U_Sigma[,,j])
-                )
+                if(use_variance_hyperprior){
+                  U_SS[[j]] <- update_SSst(z=z[, obs_j, drop=FALSE], S=hyperG0,
+                                           ltn=ltn[obs_j], scale=sc[obs_j],
+                                           df=U_df[j],
+                                           hyperprior = list("Sigma"=U_Sigma[,,j])
+                  )
+                }else{
+                  U_SS[[j]] <- update_SSst(z=z[, obs_j, drop=FALSE], S=hyperG0,
+                                           ltn=ltn[obs_j], scale=sc[obs_j],
+                                           df=U_df[j]
+                  )
+                }
+
                 U_nu[j] <- U_SS[[j]][["nu"]]
                 NNiW <- rNNiW(U_SS[[j]], diagVar)
                 U_xi[, j] <- NNiW[["xi"]]

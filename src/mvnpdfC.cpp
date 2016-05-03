@@ -3,9 +3,9 @@ using namespace Rcpp;
 using namespace arma;
 
 // [[Rcpp::depends(RcppArmadillo)]]
-const double log2pi2 = log(2.0 * M_PI)/2;
+const double log2pi2 = log(2.0 * M_PI)/2.0;
 
-//' C++ implementation of multivariate Normal probability density function
+//' C++ implementation of multivariate normal likelihood function for multiple inputs
 //'
 //'Based on the implementation from Nino Hardt and Dicko Ahmadou
 //'http://gallery.rcpp.org/articles/dmvnorm_arma/
@@ -28,10 +28,14 @@ const double log2pi2 = log(2.0 * M_PI)/2;
 //'mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1))
 //'mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1))
 //'
-//'library(microbenchmark)
-//'microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-//'               mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-//'               times=10000L)
+//'if(require(microbenchmark)){
+//' library(microbenchmark)
+//' microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+//'                mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+//'                times=10000L)
+//'}else{
+//' cat("package 'microbenchmark' not available\n")
+//'}
 //'
 // [[Rcpp::export]]
 NumericVector mvnpdfC(NumericMatrix x,

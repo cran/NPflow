@@ -33,12 +33,15 @@ using namespace arma;
 //'mmvtpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)), df=10)
 //'
 //'
-//'library(microbenchmark)
-//'microbenchmark(mvtpdf(x=matrix(1.96), mean=0, varcovM=diag(1), df=1, Log=FALSE),
-//'               mmvtpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)),
-//'                        df=c(1), Log=FALSE),
-//'               times=10000L)
-//'
+//'if(require(microbenchmark)){
+//' library(microbenchmark)
+//' microbenchmark(mvtpdf(x=matrix(1.96), mean=0, varcovM=diag(1), df=1, Log=FALSE),
+//'                mmvtpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)),
+//'                         df=c(1), Log=FALSE),
+//'                times=10000L)
+//'}else{
+//' cat("package 'microbenchmark' not available\n")
+//'}
 // [[Rcpp::export]]
 NumericMatrix mmvtpdfC(NumericMatrix x,
                        NumericMatrix mean,
@@ -64,11 +67,11 @@ NumericMatrix mmvtpdfC(NumericMatrix x,
             colvec x_i = xx.col(i) - mtemp;
             rowvec xRinv = trans(x_i)*Rinv;
             double quadform = sum(xRinv%xRinv);
-            double a = lgamma((dftemp + p)/2) - lgamma(dftemp/2) - log(dftemp*M_PI)*p/2 ;
+            double a = lgamma((dftemp + p)/2.0) - lgamma(dftemp/2.0) - log(dftemp*M_PI)*p/2.0 ;
             if (!Log) {
-                y(k,i) = pow((1 + quadform/dftemp),(-(dftemp + p)/2))*exp(a+logSqrtDetvarcovM) ;
+                y(k,i) = pow((1.0 + quadform/dftemp),(-(dftemp + p)/2.0))*exp(a+logSqrtDetvarcovM) ;
             } else{
-                y(k,i) = (-(dftemp + p)/2)*log(1 + quadform/dftemp) + a + logSqrtDetvarcovM ;
+                y(k,i) = (-(dftemp + p)/2.0)*log(1.0 + quadform/dftemp) + a + logSqrtDetvarcovM ;
             }
         }
 

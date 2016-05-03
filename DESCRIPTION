@@ -2,8 +2,8 @@ Package: NPflow
 Type: Package
 Title: Bayesian Nonparametrics for Automatic Gating of Flow-Cytometry
         Data
-Version: 0.9.0
-Date: 2016-04-26
+Version: 0.10.1
+Date: 2016-05-03
 Authors@R: c(person("Boris P.", "Hejblum", role = c("aut", "cre"),
     email = "bhejblum@hsph.harvard.edu"),
     person("Chariff", "Alkhassim", role = c("aut"),
@@ -17,15 +17,15 @@ Depends: R (>= 3.1), Rcpp (>= 0.12.4), truncnorm
 Imports: graphics, stats, grDevices, ellipse, fastcluster, gplots,
         ggplot2, pheatmap, reshape2
 Suggests: foreach, parallel, doParallel, microbenchmark
-Description: Dirichlet process mixture of multivariate normal, skew-normal or skew t-distributions
-             modeling oriented towards flow-cytometry data preprocessing applications.
+Description: Dirichlet process mixture of multivariate normal, skew normal or skew t-distributions
+             modeling oriented towards flow-cytometry data pre-processing applications.
 License: LGPL-3 | file LICENSE
 BugReports: https://github.com/borishejblum/NPflow/issues
 RoxygenNote: 5.0.1
 NeedsCompilation: yes
-Packaged: 2016-04-26 23:55:28 UTC; bhejblum
+Packaged: 2016-05-03 14:09:37 UTC; borishejblum
 Author: Boris P. Hejblum [aut, cre],
   Chariff Alkhassim [aut],
   Francois Caron [aut]
 Repository: CRAN
-Date/Publication: 2016-04-27 13:30:45
+Date/Publication: 2016-05-03 18:35:17

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{mvnpdfC}
 \alias{mvnpdfC}
-\title{C++ implementation of multivariate Normal probability density function}
+\title{C++ implementation of multivariate normal likelihood function for multiple inputs}
 \usage{
 mvnpdfC(x, mean, varcovM, Log = TRUE)
 }
@@ -30,10 +30,14 @@ mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE)
 mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1))
 mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1))
 
+if(require(microbenchmark)){
 library(microbenchmark)
 microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-              mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-              times=10000L)
+               mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+               times=10000L)
+}else{
+cat("package 'microbenchmark' not available\\n")
+}
 
 }
 \author{

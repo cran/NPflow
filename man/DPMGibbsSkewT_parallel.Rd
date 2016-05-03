@@ -4,9 +4,10 @@
 \alias{DPMGibbsSkewT_parallel}
 \title{Slice Sampling of Dirichlet Process Mixture of skew  Students's t-distibutions}
 \usage{
-DPMGibbsSkewT_parallel(Ncpus, type_connec, z, hyperG0, a, b, N,
-  doPlot = FALSE, nbclust_init = 30, plotevery = N/10, diagVar = TRUE,
-  verbose = FALSE, monitorfile = "", ...)
+DPMGibbsSkewT_parallel(Ncpus, type_connec, z, hyperG0, a = 1e-04, b = 1e-04,
+  N, doPlot = FALSE, nbclust_init = 30, plotevery = N/10,
+  diagVar = TRUE, use_variance_hyperprior = TRUE, verbose = FALSE,
+  monitorfile = "", ...)
 }
 \arguments{
 \item{Ncpus}{the number of processors available}
@@ -21,10 +22,11 @@ and \code{n} observations in columns.}
 \item{hyperG0}{prior mixing distribution.}
 
 \item{a}{shape hyperparameter of the Gamma prior
-on the parameter of the Dirichlet Process.}
+on the concentration parameter of the Dirichlet Process. Default is \code{0.0001}.}
 
 \item{b}{scale hyperparameter of the Gamma prior
-on the parameter of the Dirichlet Process.}
+on the concentration parameter of the Dirichlet Process. Default is \code{0.0001}. If \code{0}, 
+then the concentration is fixed set to \code{a}.}
 
 \item{N}{number of MCMC iterations.}
 
@@ -40,6 +42,10 @@ is \code{TRUE}.}
 \item{diagVar}{logical flag indicating wether the variance of each cluster is
 estimated as a diagonal matrix, or as a full matrix.
 Default is \code{TRUE} (diagonal variance).}
+
+\item{use_variance_hyperprior}{logical flag indicating whether a hyperprior is added 
+for the variance parameter. Default is \code{TRUE} which decrease the impact of the variance prior
+on the posterior. \code{FALSE} is useful for using an informative prior.}
 
 \item{verbose}{logical flag indicating wether partition info is
 written in the console at each MCMC iteration.}

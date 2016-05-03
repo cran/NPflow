@@ -3,7 +3,7 @@ using namespace Rcpp;
 using namespace arma;
 
 // [[Rcpp::depends(RcppArmadillo)]]
-const double log2pi2 = log(2.0 * M_PI)/2;
+const double log2pi2 = log(2.0 * M_PI)/2.0;
 
 //' C++ implementation of multivariate skew Normal probability density function for multiple inputs
 //'
@@ -29,41 +29,43 @@ const double log2pi2 = log(2.0 * M_PI)/2;
 //'          xi=matrix(c(0, 0)), psi=matrix(c(1, 1),ncol=1), sigma=list(diag(2))
 //'          )
 //'
-//'library(microbenchmark)
-//'microbenchmark(mvsnpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=c(0, 0), psi=c(1, 1),
-//'                       sigma=diag(2), Log=FALSE),
-//'               mmvsnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=matrix(c(0, 0)),
-//'                         psi=matrix(c(1, 1),ncol=1), sigma=list(diag(2)), Log=FALSE),
-//'               times=1000L
+//'if(require(microbenchmark)){
+//' library(microbenchmark)
+//' microbenchmark(mvsnpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=c(0, 0), psi=c(1, 1),
+//'                        sigma=diag(2), Log=FALSE),
+//'                mmvsnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=matrix(c(0, 0)),
+//'                          psi=matrix(c(1, 1),ncol=1), sigma=list(diag(2)), Log=FALSE),
+//'                times=1000L
 //'              )
-//'microbenchmark(mvsnpdf(x=matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
-//'                      xi=list(c(0,0),c(-1,-1), c(1.5,1.5)),
-//'                      psi=list(c(0.1,0.1),c(-0.1,-1), c(0.5,-1.5)),
-//'                      sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
-//'               mmvsnpdfC(matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
-//'                      xi=matrix(c(0,0,-1,-1, 1.5,1.5), nrow=2, ncol=3),
-//'                      psi=matrix(c(0.1,0.1,-0.1,-1, 0.5,-1.5), nrow=2, ncol=3),
-//'                      sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
+//' microbenchmark(mvsnpdf(x=matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
+//'                       xi=list(c(0,0),c(-1,-1), c(1.5,1.5)),
+//'                       psi=list(c(0.1,0.1),c(-0.1,-1), c(0.5,-1.5)),
+//'                       sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
+//'                mmvsnpdfC(matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
+//'                          xi=matrix(c(0,0,-1,-1, 1.5,1.5), nrow=2, ncol=3),
+//'                          psi=matrix(c(0.1,0.1,-0.1,-1, 0.5,-1.5), nrow=2, ncol=3),
+//'                          sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
 //'               times=1000L)
+//'}else{
+//' cat("package 'microbenchmark' not available\n")
+//'}
 // [[Rcpp::export]]
-NumericMatrix mmvsnpdfC(NumericMatrix x,
-                        NumericMatrix xi,
-                        NumericMatrix psi,
+NumericMatrix mmvsnpdfC(arma::mat x,
+                        arma::mat xi,
+                        arma::mat psi,
                         List sigma,
                         bool Log=true){
 
-    mat xx = as<mat>(x);
-    mat mxi = as<mat>(xi);
-    mat mpsi = as<mat>(psi);
-    int p = xx.n_rows;
-    int n = xx.n_cols;
-    int K = mxi.n_cols;
+
+    int p = x.n_rows;
+    int n = x.n_cols;
+    int K = xi.n_cols;
     NumericMatrix y = NumericMatrix(K,n);
     double constant = - p*log2pi2;
 
     for(int k=0; k < K; k++){
-        colvec mtemp = mxi.col(k);
-        mat psitemp = mpsi.col(k);
+        colvec mtemp = xi.col(k);
+        mat psitemp = psi.col(k);
         mat sigmatemp = sigma[k];
 
         mat omega = sigmatemp + psitemp*trans(psitemp);
@@ -77,10 +79,10 @@ NumericMatrix mmvsnpdfC(NumericMatrix x,
         double logSqrtDetvarcovM = sum(log(Rinv.diag()));
 
         for (int i=0; i < n; i++) {
-            colvec x_i = xx.col(i) - mtemp;
+            colvec x_i = x.col(i) - mtemp;
             rowvec xRinv = trans(x_i)*Rinv;
             double quadform = sum(xRinv%xRinv);
-            double part1 = log(2) -0.5*quadform + logSqrtDetvarcovM + constant;
+            double part1 = log(2.0) -0.5*quadform + logSqrtDetvarcovM + constant;
             mat quant = trans(alph)*diagmat(1/sqrt(diagvec(omega)))*x_i;
             double part2 = Rcpp::stats::pnorm_0(quant(0,0), 1, 0);
             if (!Log) {

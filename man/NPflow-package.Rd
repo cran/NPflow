@@ -6,15 +6,15 @@
 \alias{NPflow-package}
 \title{Bayesian Nonparametrics for Automatic Gating of Flow Cytometry data}
 \description{
-Dirichlet process mixture of multivariate normal, skew-normal or skew t-distributions
-modeling oriented towards flow-cytometry data preprocessing applications.
+Dirichlet process mixture of multivariate normal, skew normal or skew t-distributions
+modeling oriented towards flow-cytometry data prep-rocessing applications.
 }
 \details{
 \tabular{ll}{
 Package: \tab NPflow\cr
 Type: \tab Package\cr
-Version: \tab 0.9.0\cr
-Date: \tab 2016-04-26\cr
+Version: \tab 0.10.1\cr
+Date: \tab 2016-05-03\cr
 License:\tab \href{http://www.gnu.org/licenses/lgpl.txt}{LGPL-3}\cr
 }
 The main functions in this package is \code{\link{DPMpost}}.

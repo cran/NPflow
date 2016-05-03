@@ -141,27 +141,30 @@ mmsNiWpdfC <- function(xi, psi, Sigma, U_xi0, U_psi0, U_B0, U_Sigma0, U_df0, Log
 #'@return matrix of densities of dimension \code{K x n}.
 #'@export
 #'@examples
+#'if(require(microbenchmark)){
 #'library(microbenchmark)
-#'microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-#'               mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-#'               mmvnpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)), Log=FALSE),
-#'               times=1000L)
-#'microbenchmark(mvnpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1), mean=c(0, 0),
-#'                      varcovM=diag(2), Log=FALSE),
-#'               mvnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1), mean=c(0, 0),
+#' microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+#'                mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+#'                mmvnpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)), Log=FALSE),
+#'                times=1000L)
+#' microbenchmark(mvnpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1), mean=c(0, 0),
 #'                       varcovM=diag(2), Log=FALSE),
-#'               mmvnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1),
-#'                        mean=matrix(c(0, 0), nrow=2, ncol=1),
-#'                        varcovM=list(diag(2)), Log=FALSE),
-#'               times=1000L)
-#'microbenchmark(mvnpdf(x=matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
-#'                      mean=list(c(0,0),c(-1,-1), c(1.5,1.5)),
-#'                      varcovM=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
-#'               mmvnpdfC(matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
-#'                      mean=matrix(c(0,0,-1,-1, 1.5,1.5), nrow=2, ncol=3),
-#'                      varcovM=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
-#'               times=1000L)
-#'
+#'                mvnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1), mean=c(0, 0),
+#'                        varcovM=diag(2), Log=FALSE),
+#'                mmvnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1),
+#'                         mean=matrix(c(0, 0), nrow=2, ncol=1),
+#'                         varcovM=list(diag(2)), Log=FALSE),
+#'                times=1000L)
+#' microbenchmark(mvnpdf(x=matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
+#'                       mean=list(c(0,0),c(-1,-1), c(1.5,1.5)),
+#'                       varcovM=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
+#'                mmvnpdfC(matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
+#'                         mean=matrix(c(0,0,-1,-1, 1.5,1.5), nrow=2, ncol=3),
+#'                         varcovM=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
+#'                times=1000L)
+#'}else{
+#' cat("package 'microbenchmark' not available\n")
+#'}
 mmvnpdfC <- function(x, mean, varcovM, Log = TRUE) {
     .Call('NPflow_mmvnpdfC', PACKAGE = 'NPflow', x, mean, varcovM, Log)
 }
@@ -190,22 +193,26 @@ mmvnpdfC <- function(x, mean, varcovM, Log = TRUE) {
 #'          xi=matrix(c(0, 0)), psi=matrix(c(1, 1),ncol=1), sigma=list(diag(2))
 #'          )
 #'
-#'library(microbenchmark)
-#'microbenchmark(mvsnpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=c(0, 0), psi=c(1, 1),
-#'                       sigma=diag(2), Log=FALSE),
-#'               mmvsnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=matrix(c(0, 0)),
-#'                         psi=matrix(c(1, 1),ncol=1), sigma=list(diag(2)), Log=FALSE),
-#'               times=1000L
+#'if(require(microbenchmark)){
+#' library(microbenchmark)
+#' microbenchmark(mvsnpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=c(0, 0), psi=c(1, 1),
+#'                        sigma=diag(2), Log=FALSE),
+#'                mmvsnpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1), xi=matrix(c(0, 0)),
+#'                          psi=matrix(c(1, 1),ncol=1), sigma=list(diag(2)), Log=FALSE),
+#'                times=1000L
 #'              )
-#'microbenchmark(mvsnpdf(x=matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
-#'                      xi=list(c(0,0),c(-1,-1), c(1.5,1.5)),
-#'                      psi=list(c(0.1,0.1),c(-0.1,-1), c(0.5,-1.5)),
-#'                      sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
-#'               mmvsnpdfC(matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
-#'                      xi=matrix(c(0,0,-1,-1, 1.5,1.5), nrow=2, ncol=3),
-#'                      psi=matrix(c(0.1,0.1,-0.1,-1, 0.5,-1.5), nrow=2, ncol=3),
-#'                      sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
+#' microbenchmark(mvsnpdf(x=matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
+#'                       xi=list(c(0,0),c(-1,-1), c(1.5,1.5)),
+#'                       psi=list(c(0.1,0.1),c(-0.1,-1), c(0.5,-1.5)),
+#'                       sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
+#'                mmvsnpdfC(matrix(c(rep(1.96,2),rep(0,2)), nrow=2, ncol=2),
+#'                          xi=matrix(c(0,0,-1,-1, 1.5,1.5), nrow=2, ncol=3),
+#'                          psi=matrix(c(0.1,0.1,-0.1,-1, 0.5,-1.5), nrow=2, ncol=3),
+#'                          sigma=list(diag(2),10*diag(2), 20*diag(2)), Log=FALSE),
 #'               times=1000L)
+#'}else{
+#' cat("package 'microbenchmark' not available\n")
+#'}
 mmvsnpdfC <- function(x, xi, psi, sigma, Log = TRUE) {
     .Call('NPflow_mmvsnpdfC', PACKAGE = 'NPflow', x, xi, psi, sigma, Log)
 }
@@ -262,15 +269,18 @@ mmvsnpdfC <- function(x, xi, psi, sigma, Log = TRUE) {
 #'          df=10
 #'          )
 #'
-#'library(microbenchmark)
-#'microbenchmark(mvstpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1),
-#'                       xi=c(0, 0), psi=c(1, 1),
-#'                       sigma=diag(2), df=10),
-#'               mmvstpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1),
-#'                         xi=matrix(c(0, 0)), psi=matrix(c(1, 1),ncol=1),
-#'                         sigma=list(diag(2)), df=10),
-#'               times=1000L)
-#'
+#'if(require(microbenchmark)){
+#' library(microbenchmark)
+#' microbenchmark(mvstpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1),
+#'                        xi=c(0, 0), psi=c(1, 1),
+#'                        sigma=diag(2), df=10),
+#'                mmvstpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1),
+#'                          xi=matrix(c(0, 0)), psi=matrix(c(1, 1),ncol=1),
+#'                          sigma=list(diag(2)), df=10),
+#'                times=1000L)
+#'}else{
+#' cat("package 'microbenchmark' not available\n")
+#'}
 mmvstpdfC <- function(x, xi, psi, sigma, df, Log = TRUE) {
     .Call('NPflow_mmvstpdfC', PACKAGE = 'NPflow', x, xi, psi, sigma, df, Log)
 }
@@ -304,17 +314,46 @@ mmvstpdfC <- function(x, xi, psi, sigma, df, Log = TRUE) {
 #'mmvtpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)), df=10)
 #'
 #'
-#'library(microbenchmark)
-#'microbenchmark(mvtpdf(x=matrix(1.96), mean=0, varcovM=diag(1), df=1, Log=FALSE),
-#'               mmvtpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)),
-#'                        df=c(1), Log=FALSE),
-#'               times=10000L)
-#'
+#'if(require(microbenchmark)){
+#' library(microbenchmark)
+#' microbenchmark(mvtpdf(x=matrix(1.96), mean=0, varcovM=diag(1), df=1, Log=FALSE),
+#'                mmvtpdfC(x=matrix(1.96), mean=matrix(0), varcovM=list(diag(1)),
+#'                         df=c(1), Log=FALSE),
+#'                times=10000L)
+#'}else{
+#' cat("package 'microbenchmark' not available\n")
+#'}
 mmvtpdfC <- function(x, mean, varcovM, df, Log = TRUE) {
     .Call('NPflow_mmvtpdfC', PACKAGE = 'NPflow', x, mean, varcovM, df, Log)
 }
 
-#' C++ implementation of multivariate Normal probability density function
+#' C++ implementation of multivariate Normal probability density function for multiple inputs
+#'
+#'@param x data matrix of dimension p x n, p being the dimension of the
+#'data and n the number of data points
+#'@param c integer vector of cluster allocations with values from 1 to K
+#'@param clustval vector of unique values from c in the order corresponding to
+#'the storage of cluster parameters in \code{xi}, \code{psi}, and \code{varcovM}
+#'@param mu mean vectors matrix of dimension p x K, K being the number of
+#'clusters
+#'@param sigma list of length \code{K} of variance-covariance matrices,
+#'each of dimensions \code{p x p}.
+#'@param loglik logical flag or returning the log-likelihood intead of the likelihood.
+#'Default is \code{TRUE}.
+#'@return a list:
+#'\itemize{
+#'\item{\code{"indiv"}:}{ vector of likelihood of length n;}
+#'\item{\code{"clust"}:}{ vector of likelihood of length K;}
+#'\item{\code{"total"}:}{ total (log)-likelihood;}
+#'}
+#'
+#'@author Boris Hejblum
+#'
+mvnlikC <- function(x, c, clustval, mu, sigma, loglik = TRUE) {
+    .Call('NPflow_mvnlikC', PACKAGE = 'NPflow', x, c, clustval, mu, sigma, loglik)
+}
+
+#' C++ implementation of multivariate normal likelihood function for multiple inputs
 #'
 #'Based on the implementation from Nino Hardt and Dicko Ahmadou
 #'http://gallery.rcpp.org/articles/dmvnorm_arma/
@@ -337,22 +376,53 @@ mmvtpdfC <- function(x, mean, varcovM, df, Log = TRUE) {
 #'mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1))
 #'mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1))
 #'
-#'library(microbenchmark)
-#'microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-#'               mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
-#'               times=10000L)
+#'if(require(microbenchmark)){
+#' library(microbenchmark)
+#' microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+#'                mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+#'                times=10000L)
+#'}else{
+#' cat("package 'microbenchmark' not available\n")
+#'}
 #'
 mvnpdfC <- function(x, mean, varcovM, Log = TRUE) {
     .Call('NPflow_mvnpdfC', PACKAGE = 'NPflow', x, mean, varcovM, Log)
 }
 
-#' C++ implementation of multivariate Normal probability density function for multiple inputs
+#' C++ implementation of multivariate skew normal likelihood function for multiple inputs
 #'
 #'@param x data matrix of dimension p x n, p being the dimension of the
 #'data and n the number of data points
 #'@param c integer vector of cluster allocations with values from 1 to K
 #'@param clustval vector of unique values from c in the order corresponding to
-#'the storage of cluster parameters in \code{xi}, \code{psi}, and \code{varcovM}
+#'the storage of cluster parameters in \code{xi}, \code{psi}, and \code{sigma}
+#'@param xi mean vectors matrix of dimension p x K, K being the number of
+#'clusters
+#'@param psi skew parameter vectors matrix of dimension \code{p x K}
+#'@param sigma list of length \code{K} of variance-covariance matrices,
+#'each of dimensions \code{p x p}.
+#'@param loglik logical flag or returning the log-likelihood intead of the likelihood.
+#'Default is \code{TRUE}.
+#'@return a list:
+#'\itemize{
+#'\item{\code{"indiv"}:}{ vector of likelihood of length n;}
+#'\item{\code{"clust"}:}{ vector of likelihood of length K;}
+#'\item{\code{"total"}:}{ total (log)-likelihood;}
+#'}
+#'
+#'@author Boris Hejblum
+#'
+mvsnlikC <- function(x, c, clustval, xi, psi, sigma, loglik = TRUE) {
+    .Call('NPflow_mvsnlikC', PACKAGE = 'NPflow', x, c, clustval, xi, psi, sigma, loglik)
+}
+
+#' C++ implementation of multivariate skew t likelihood function for multiple inputs
+#'
+#'@param x data matrix of dimension p x n, p being the dimension of the
+#'data and n the number of data points
+#'@param c integer vector of cluster allocations with values from 1 to K
+#'@param clustval vector of unique values from c in the order corresponding to
+#'the storage of cluster parameters in \code{xi}, \code{psi}, and \code{sigma}
 #'@param xi mean vectors matrix of dimension p x K, K being the number of
 #'clusters
 #'@param psi skew parameter vectors matrix of dimension \code{p x K}
@@ -431,9 +501,13 @@ sampleClassC <- function(probMat) {
 #'}
 #'
 #'c3 <- sapply(c2, "[")
-#'library(microbenchmark)
-#'microbenchmark(similarityMat(c3), similarityMat_nocostC(c3), times=2L)
 #'
+#'if(require(microbenchmark)){
+#' library(microbenchmark)
+#' microbenchmark(similarityMat(c3), similarityMat_nocostC(c3), times=2L)
+#'}else{
+#' cat("package 'microbenchmark' not available\n")
+#'}
 similarityMat_nocostC <- function(cc) {
     .Call('NPflow_similarityMat_nocostC', PACKAGE = 'NPflow', cc)
 }

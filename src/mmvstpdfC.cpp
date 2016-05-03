@@ -56,15 +56,18 @@ using namespace arma;
 //'          df=10
 //'          )
 //'
-//'library(microbenchmark)
-//'microbenchmark(mvstpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1),
-//'                       xi=c(0, 0), psi=c(1, 1),
-//'                       sigma=diag(2), df=10),
-//'               mmvstpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1),
-//'                         xi=matrix(c(0, 0)), psi=matrix(c(1, 1),ncol=1),
-//'                         sigma=list(diag(2)), df=10),
-//'               times=1000L)
-//'
+//'if(require(microbenchmark)){
+//' library(microbenchmark)
+//' microbenchmark(mvstpdf(x=matrix(rep(1.96,2), nrow=2, ncol=1),
+//'                        xi=c(0, 0), psi=c(1, 1),
+//'                        sigma=diag(2), df=10),
+//'                mmvstpdfC(x=matrix(rep(1.96,2), nrow=2, ncol=1),
+//'                          xi=matrix(c(0, 0)), psi=matrix(c(1, 1),ncol=1),
+//'                          sigma=list(diag(2)), df=10),
+//'                times=1000L)
+//'}else{
+//' cat("package 'microbenchmark' not available\n")
+//'}
 // [[Rcpp::export]]
 NumericMatrix mmvstpdfC(arma::mat x,
                         arma::mat xi,
@@ -99,8 +102,8 @@ NumericMatrix mmvstpdfC(arma::mat x,
             rowvec xRinv = trans(x_i)*Rinv;
             mat Qy = x_i.t()*omegaInv*x_i;
             double quadform = sum(xRinv%xRinv);
-            double a = lgamma((dftemp + p)/2) - lgamma(dftemp/2) - log(dftemp*M_PI)*p/2;
-            double part1 = log(2) +(-(dftemp + p)/2)*log(1 + quadform/dftemp) + a+logSqrtDetvarcovM ;
+            double a = lgamma((dftemp + p)/2.0) - lgamma(dftemp/2.0) - log(dftemp*M_PI)*p/2.0;
+            double part1 = log(2.0) + (-(dftemp + p)/2.0)*log(1.0 + quadform/dftemp) + a +logSqrtDetvarcovM ;
             //double part1 = 2*pow((1 + quadform/dftemp),(-(dftemp + p)/2))*exp(a+logSqrtDetvarcovM);
             mat quant = trans(alph)*diagmat(1/sqrt(diagvec(omega)))*x_i*sqrt((dftemp + p)/(dftemp+Qy));
             double part2 = ::Rf_pt(quant(0,0), (dftemp + p) , 1, 0);
