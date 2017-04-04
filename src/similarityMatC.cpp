@@ -27,16 +27,16 @@ List similarityMatC(arma::mat cc){
     int N = cc.n_cols;
     int n = cc.n_rows;
 
-    NumericVector cost = NumericVector(N);
-    mat similarity = mat(n, n, fill::eye);
+    NumericVector cost(N);
+    mat similarity(n, n, fill::eye);
 
     for(int i=0; i<n-1; i++){
         for(int j=i+1; j<n; j++){
             similarity(i,j) = sum(cc.row(i) == cc.row(j));
-            similarity(i,j) = similarity(i,j)/N;
+            similarity(i,j) /= N;
             similarity(j,i) = similarity(i,j);
             for(int k=0; k<N; k++){
-                cost(k) = cost(k) + std::abs(similarity(i,j) - (cc(i,k) == cc(j,k)));
+                cost(k) += std::abs(similarity(i,j) - (cc(i,k) == cc(j,k)));
             }
         }
     }

@@ -24,7 +24,8 @@ using namespace arma;
 //'
 //'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
 //'Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-//'of Flow Cytometry Data, in preparation.
+//'of Flow Cytometry Data, submitted.
+//'arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
 //'
 //'@export
 //'
@@ -41,7 +42,7 @@ NumericMatrix mmNiWpdfC(arma::mat Mu,
   int d = Mu.n_rows;
   int n = Mu.n_cols;
   int K = U_Mu0.n_cols;
-  NumericMatrix y = NumericMatrix(K,n);
+  NumericMatrix y(K,n);
 
   const double dlog2pi = -d*log(2.0 * M_PI);
 

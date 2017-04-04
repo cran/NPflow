@@ -87,45 +87,35 @@ This function is a wrapper around \code{\link{DPMGibbsN}}, \code{\link{DPMGibbsN
 \code{\link{DPMGibbsSkewT_SeqPrior}}, \code{\link{DPMGibbsSkewT_SeqPrior_parallel}}.
 }
 \examples{
-rm(list=ls())
-library(ggplot2)
-library(truncnorm)
-
-#Number of data
-n <- 2000
+#rm(list=ls())
 set.seed(123)
-set.seed(4321)
 
+# Exemple in 2 dimensions with skew-t distributions
 
-d <- 2
-ncl <- 4
-
-# Sample data
-
+# Generate data:
+n <- 2000 # number of data points
+d <- 2 # dimensions
+ncl <- 4 # number of true clusters
 sdev <- array(dim=c(d,d,ncl))
-
 xi <- matrix(nrow=d, ncol=ncl, c(-1.5, 1.5, 1.5, 1.5, 2, -2.5, -2.5, -3))
 psi <- matrix(nrow=d, ncol=4, c(0.3, -0.7, -0.8, 0, 0.3, -0.7, 0.2, 0.9))
 nu <- c(100,25,8,5)
-p <- c(0.15, 0.05, 0.5, 0.3) # frequence des clusters
+proba <- c(0.15, 0.05, 0.5, 0.3) # cluster frequencies
 sdev[, ,1] <- matrix(nrow=d, ncol=d, c(0.3, 0, 0, 0.3))
 sdev[, ,2] <- matrix(nrow=d, ncol=d, c(0.1, 0, 0, 0.3))
 sdev[, ,3] <- matrix(nrow=d, ncol=d, c(0.3, 0, 0, 0.2))
 sdev[, ,4] <- .3*diag(2)
-
-
 c <- rep(0,n)
 w <- rep(1,n)
 z <- matrix(0, nrow=d, ncol=n)
 for(k in 1:n){
- c[k] = which(rmultinom(n=1, size=1, prob=p)!=0)
+ c[k] = which(rmultinom(n=1, size=1, prob=proba)!=0)
  w[k] <- rgamma(1, shape=nu[c[k]]/2, rate=nu[c[k]]/2)
  z[,k] <- xi[, c[k]] + psi[, c[k]]*rtruncnorm(n=1, a=0, b=Inf, mean=0, sd=1/sqrt(w[k])) +
                (sdev[, , c[k]]/sqrt(w[k]))\%*\%matrix(rnorm(d, mean = 0, sd = 1), nrow=d, ncol=1)
- #cat(k, "/", n, " observations simulated\\n", sep="")
 }
 
-# Set parameters of G0
+# Define hyperprior
 hyperG0 <- list()
 hyperG0[["b_xi"]] <- rowMeans(z)
 hyperG0[["b_psi"]] <- rep(0,d)
@@ -135,22 +125,106 @@ hyperG0[["D_psi"]] <- 100
 hyperG0[["nu"]] <- d+1
 hyperG0[["lambda"]] <- diag(apply(z,MARGIN=1, FUN=var))/3
 
- # hyperprior on the Scale parameter of DPM
- a <- 0.0001
- b <- 0.0001
 
+\dontrun{
+# Plot data
+cytoScatter(z)
 
-
- ## Data
- ########
+# Estimate posterior
+MCMCsample_st <- DPMpost(data=z, hyperG0=hyperG0, N=2000,
+   distrib="skewt",
+   gg.add=list(ggplot2::theme_bw(),
+      ggplot2::guides(shape=ggplot2::guide_legend(override.aes = list(fill="grey45"))))
+ )
+ s <- summary(MCMCsample_st, burnin = 1600, thin=5, lossFn = "Binder")
+ s
+ plot(s)
+ #plot(s, hm=TRUE) # this can take a few sec...
+ 
+ 
+ # more data plotting:
  library(ggplot2)
  p <- (ggplot(data.frame("X"=z[1,], "Y"=z[2,]), aes(x=X, y=Y))
        + geom_point()
-       #+ ggtitle("Simple example in 2d data")
-       +xlab("D1")
-       +ylab("D2")
-       +theme_bw())
- p #pdf(height=8.5, width=8.5)
+       + ggtitle("Unsupervised data")
+       + xlab("D1")
+       + ylab("D2")
+       + theme_bw()
+ )
+ p
+
+ c2plot <- factor(c)
+ levels(c2plot) <- c("4", "1", "3", "2")
+ pp <- (ggplot(data.frame("X"=z[1,], "Y"=z[2,], "Cluster"=as.character(c2plot)))
+       + geom_point(aes(x=X, y=Y, colour=Cluster, fill=Cluster))
+       + ggtitle("True clusters")
+       + xlab("D1")
+       + ylab("D2")
+       + theme_bw()
+       + scale_colour_discrete(guide=guide_legend(override.aes = list(size = 6, shape=22)))
+ )
+ pp
+}
+
+
+
+
+# Exemple in 2 dimensions with Gaussian distributions
+
+set.seed(1234)
+
+# Generate data 
+n <- 2000 # number of data points
+d <- 2 # dimensions
+ncl <- 4 # number of true clusters
+m <- matrix(nrow=2, ncol=4, c(-1, 1, 1.5, 2, 2, -2, -1.5, -2)) # cluster means
+sdev <- array(dim=c(2, 2, 4)) # cluster standard-deviations
+sdev[, ,1] <- matrix(nrow=2, ncol=2, c(0.3, 0, 0, 0.3))
+sdev[, ,2] <- matrix(nrow=2, ncol=2, c(0.1, 0, 0, 0.3))
+sdev[, ,3] <- matrix(nrow=2, ncol=2, c(0.3, 0.15, 0.15, 0.3))
+sdev[, ,4] <- .3*diag(2)
+proba <- c(0.15, 0.05, 0.5, 0.3) # cluster frequencies
+c <- rep(0,n)
+z <- matrix(0, nrow=2, ncol=n)
+for(k in 1:n){
+ c[k] = which(rmultinom(n=1, size=1, prob=proba)!=0)
+ z[,k] <- m[, c[k]] + sdev[, , c[k]]\%*\%matrix(rnorm(2, mean = 0, sd = 1), nrow=2, ncol=1)
+}
+
+# Define hyperprior
+hyperG0 <- list()
+hyperG0[["mu"]] <- rep(0,d)
+hyperG0[["kappa"]] <- 0.001
+hyperG0[["nu"]] <- d+2
+hyperG0[["lambda"]] <- diag(d)
+
+
+\dontrun{
+# Plot data
+cytoScatter(z)
+
+# Estimate posterior
+MCMCsample_n <- DPMpost(data=z, hyperG0=hyperG0, N=2000,
+   distrib="gaussian", diagVar=FALSE,
+   gg.add=list(ggplot2::theme_bw(),
+      ggplot2::guides(shape=ggplot2::guide_legend(override.aes = list(fill="grey45"))))
+ )
+ s <- summary(MCMCsample_n, burnin = 1500, thin=5, lossFn = "Binder")
+ s
+ plot(s)
+ #plot(s, hm=TRUE) # this can take a few sec...
+ 
+ 
+ # more data plotting:
+ library(ggplot2)
+ p <- (ggplot(data.frame("X"=z[1,], "Y"=z[2,]), aes(x=X, y=Y))
+       + geom_point()
+       + ggtitle("Unsupervised data")
+       + xlab("D1")
+       + ylab("D2")
+       + theme_bw()
+ )
+ p
 
  c2plot <- factor(c)
  levels(c2plot) <- c("4", "1", "3", "2")
@@ -160,33 +234,20 @@ hyperG0[["lambda"]] <- diag(apply(z,MARGIN=1, FUN=var))/3
        + xlab("D1")
        + ylab("D2")
        + theme_bw()
-       + scale_colour_discrete(guide=guide_legend(override.aes = list(size = 6, shape=22))))
- pp #pdf(height=7, width=7.5)
-
-\dontrun{
- MCMCsample_st <- DPMpost(data=z, hyperG0=hyperG0, N=2000,
-                          distrib="skewt",
-                          gg.add=list(theme_bw(),
-                          guides(shape=guide_legend(override.aes = list(fill="grey45"))))
+       + scale_colour_discrete(guide=guide_legend(override.aes = list(size = 6, shape=22)))
+       + ggtitle("True clusters")
  )
- s <- summary(MCMCsample_st, burnin = 1500, thin=5, lossFn = "Binder")
- s
- plot(s)
- #plot(s, hm=TRUE) #pdf(height=8.5, width=10.5) #png(height=700, width=720)
+ pp
 }
 
 
-
-
-
-
-}
-\author{
-Boris Hejblum
 }
 \references{
 Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
 Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-of Flow Cytometry Data, in preparation.
+of Flow Cytometry Data, submitted.
+arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
 }
-
+\author{
+Boris Hejblum
+}
