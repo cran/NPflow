@@ -3,10 +3,13 @@
 #'Partially collapse slice Gibbs sampling for Dirichlet process mixture of multivariate
 #'normal, skew normal or skew t distributions.
 #'
-#'@details This function is a wrapper around \code{\link{DPMGibbsN}}, \code{\link{DPMGibbsN_parallel}},
+#'@details This function is a wrapper around the following functions: 
+#'\code{\link{DPMGibbsN}}, \code{\link{DPMGibbsN_parallel}},
 #'\code{\link{DPMGibbsN_SeqPrior}}, \code{\link{DPMGibbsSkewN}}, \code{\link{DPMGibbsSkewN_parallel}},
 #'\code{\link{DPMGibbsSkewT}}, \code{\link{DPMGibbsSkewT_parallel}},
 #'\code{\link{DPMGibbsSkewT_SeqPrior}}, \code{\link{DPMGibbsSkewT_SeqPrior_parallel}}.
+#'
+#'@seealso \code{\link{summary.DPMMclust}}
 #'
 #'@param data data matrix \code{d x n} with \code{d} dimensions in rows
 #'and \code{n} observations in columns.
@@ -58,27 +61,26 @@
 #'      \item{\code{mcmc_partitions}:}{ a list of length \code{N}. Each
 #'       element \code{mcmc_partitions[n]} is a vector of length
 #'       \code{n} giving the partition of the \code{n} observations.}
-#'      \item{\code{alpha}:}{a vector of length \code{N}. \code{cost[j]} is the cost
+#'      \item{\code{alpha}:}{ a vector of length \code{N}. \code{cost[j]} is the cost
 #' associated to partition \code{c[[j]]}}
-#'       \item{\code{U_SS_list}:}{a list of length \code{N} containing the lists of
+#'       \item{\code{U_SS_list}:}{ a list of length \code{N} containing the lists of
 #'       sufficient statistics for all the mixture components at each MCMC iteration}
-#'      \item{\code{weights_list}:}{a list of length \code{N} containing the weights of each
+#'      \item{\code{weights_list}:}{ a list of length \code{N} containing the weights of each
 #'      mixture component for each MCMC iterations}
-#'      \item{\code{logposterior_list}:}{a list of length \code{N} containing the logposterior values
+#'      \item{\code{logposterior_list}:}{ a list of length \code{N} containing the logposterior values
 #'       at each MCMC iterations}
-#'      \item{\code{data}:}{the data matrix \code{d x n} with \code{d} dimensions in rows
+#'      \item{\code{data}:}{ the data matrix \code{d x n} with \code{d} dimensions in rows
 #'and \code{n} observations in columns}
 #'      \item{\code{nb_mcmcit}:}{ the number of MCMC itertations}
-#'      \item{\code{clust_distrib}:}{the parametric distribution of the mixture component}
-#'      \item{\code{hyperG0}:}{the prior on the cluster location}
+#'      \item{\code{clust_distrib}:}{ the parametric distribution of the mixture component}
+#'      \item{\code{hyperG0}:}{ the prior on the cluster location}
 #'  }
 #'
 #'@author Boris Hejblum
 #'
 #'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
 #'Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-#'of Flow Cytometry Data, submitted.
-#'arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+#'of Flow Cytometry Data, 2017, \emph{submitted}. \href{https://arxiv.org/abs/1702.04407v2}{arxiv:1702.04407}
 #'
 #'@export
 #'
@@ -248,7 +250,7 @@ DPMpost <- function (data, hyperG0, a=0.0001, b=0.0001, N, doPlot=TRUE,
 ){
 
   if(ncores>1){
-    if(ncores < parallel::detectCores()){
+    if(ncores > parallel::detectCores()){
       stop("Number of requested cores is higher than what is available")
     }
   }

@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // FmeasureC
 double FmeasureC(NumericVector pred, NumericVector ref);
-RcppExport SEXP NPflow_FmeasureC(SEXP predSEXP, SEXP refSEXP) {
+RcppExport SEXP _NPflow_FmeasureC(SEXP predSEXP, SEXP refSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,7 +20,7 @@ END_RCPP
 }
 // FmeasureC_no0
 double FmeasureC_no0(NumericVector pred, NumericVector ref);
-RcppExport SEXP NPflow_FmeasureC_no0(SEXP predSEXP, SEXP refSEXP) {
+RcppExport SEXP _NPflow_FmeasureC_no0(SEXP predSEXP, SEXP refSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,7 +32,7 @@ END_RCPP
 }
 // Fmeasure_costC
 List Fmeasure_costC(arma::mat c);
-RcppExport SEXP NPflow_Fmeasure_costC(SEXP cSEXP) {
+RcppExport SEXP _NPflow_Fmeasure_costC(SEXP cSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -43,7 +43,7 @@ END_RCPP
 }
 // mmNiWpdfC
 NumericMatrix mmNiWpdfC(arma::mat Mu, List Sigma, arma::mat U_Mu0, NumericVector U_Kappa0, NumericVector U_Nu0, List U_Sigma0, bool Log);
-RcppExport SEXP NPflow_mmNiWpdfC(SEXP MuSEXP, SEXP SigmaSEXP, SEXP U_Mu0SEXP, SEXP U_Kappa0SEXP, SEXP U_Nu0SEXP, SEXP U_Sigma0SEXP, SEXP LogSEXP) {
+RcppExport SEXP _NPflow_mmNiWpdfC(SEXP MuSEXP, SEXP SigmaSEXP, SEXP U_Mu0SEXP, SEXP U_Kappa0SEXP, SEXP U_Nu0SEXP, SEXP U_Sigma0SEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -60,7 +60,7 @@ END_RCPP
 }
 // mmsNiWpdfC
 NumericMatrix mmsNiWpdfC(arma::mat xi, arma::mat psi, List Sigma, arma::mat U_xi0, arma::mat U_psi0, List U_B0, List U_Sigma0, NumericVector U_df0, bool Log);
-RcppExport SEXP NPflow_mmsNiWpdfC(SEXP xiSEXP, SEXP psiSEXP, SEXP SigmaSEXP, SEXP U_xi0SEXP, SEXP U_psi0SEXP, SEXP U_B0SEXP, SEXP U_Sigma0SEXP, SEXP U_df0SEXP, SEXP LogSEXP) {
+RcppExport SEXP _NPflow_mmsNiWpdfC(SEXP xiSEXP, SEXP psiSEXP, SEXP SigmaSEXP, SEXP U_xi0SEXP, SEXP U_psi0SEXP, SEXP U_B0SEXP, SEXP U_Sigma0SEXP, SEXP U_df0SEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -79,7 +79,7 @@ END_RCPP
 }
 // mmvnpdfC
 NumericMatrix mmvnpdfC(arma::mat x, arma::mat mean, List varcovM, bool Log);
-RcppExport SEXP NPflow_mmvnpdfC(SEXP xSEXP, SEXP meanSEXP, SEXP varcovMSEXP, SEXP LogSEXP) {
+RcppExport SEXP _NPflow_mmvnpdfC(SEXP xSEXP, SEXP meanSEXP, SEXP varcovMSEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -93,7 +93,7 @@ END_RCPP
 }
 // mmvsnpdfC
 NumericMatrix mmvsnpdfC(arma::mat x, arma::mat xi, arma::mat psi, List sigma, bool Log);
-RcppExport SEXP NPflow_mmvsnpdfC(SEXP xSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP LogSEXP) {
+RcppExport SEXP _NPflow_mmvsnpdfC(SEXP xSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -108,7 +108,7 @@ END_RCPP
 }
 // mmvstpdfC
 NumericMatrix mmvstpdfC(arma::mat x, arma::mat xi, arma::mat psi, List sigma, NumericVector df, bool Log);
-RcppExport SEXP NPflow_mmvstpdfC(SEXP xSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP dfSEXP, SEXP LogSEXP) {
+RcppExport SEXP _NPflow_mmvstpdfC(SEXP xSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP dfSEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -124,7 +124,7 @@ END_RCPP
 }
 // mmvtpdfC
 NumericMatrix mmvtpdfC(NumericMatrix x, NumericMatrix mean, List varcovM, NumericVector df, bool Log);
-RcppExport SEXP NPflow_mmvtpdfC(SEXP xSEXP, SEXP meanSEXP, SEXP varcovMSEXP, SEXP dfSEXP, SEXP LogSEXP) {
+RcppExport SEXP _NPflow_mmvtpdfC(SEXP xSEXP, SEXP meanSEXP, SEXP varcovMSEXP, SEXP dfSEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -139,7 +139,7 @@ END_RCPP
 }
 // mvnlikC
 List mvnlikC(arma::mat x, arma::vec c, arma::vec clustval, arma::mat mu, List sigma, bool loglik);
-RcppExport SEXP NPflow_mvnlikC(SEXP xSEXP, SEXP cSEXP, SEXP clustvalSEXP, SEXP muSEXP, SEXP sigmaSEXP, SEXP loglikSEXP) {
+RcppExport SEXP _NPflow_mvnlikC(SEXP xSEXP, SEXP cSEXP, SEXP clustvalSEXP, SEXP muSEXP, SEXP sigmaSEXP, SEXP loglikSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -155,7 +155,7 @@ END_RCPP
 }
 // mvnpdfC
 NumericVector mvnpdfC(NumericMatrix x, NumericVector mean, NumericMatrix varcovM, bool Log);
-RcppExport SEXP NPflow_mvnpdfC(SEXP xSEXP, SEXP meanSEXP, SEXP varcovMSEXP, SEXP LogSEXP) {
+RcppExport SEXP _NPflow_mvnpdfC(SEXP xSEXP, SEXP meanSEXP, SEXP varcovMSEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -169,7 +169,7 @@ END_RCPP
 }
 // mvsnlikC
 List mvsnlikC(arma::mat x, arma::vec c, arma::vec clustval, arma::mat xi, arma::mat psi, List sigma, bool loglik);
-RcppExport SEXP NPflow_mvsnlikC(SEXP xSEXP, SEXP cSEXP, SEXP clustvalSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP loglikSEXP) {
+RcppExport SEXP _NPflow_mvsnlikC(SEXP xSEXP, SEXP cSEXP, SEXP clustvalSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP loglikSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -186,7 +186,7 @@ END_RCPP
 }
 // mvstlikC
 List mvstlikC(arma::mat x, arma::vec c, arma::vec clustval, arma::mat xi, arma::mat psi, List sigma, NumericVector df, bool loglik);
-RcppExport SEXP NPflow_mvstlikC(SEXP xSEXP, SEXP cSEXP, SEXP clustvalSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP dfSEXP, SEXP loglikSEXP) {
+RcppExport SEXP _NPflow_mvstlikC(SEXP xSEXP, SEXP cSEXP, SEXP clustvalSEXP, SEXP xiSEXP, SEXP psiSEXP, SEXP sigmaSEXP, SEXP dfSEXP, SEXP loglikSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -204,7 +204,7 @@ END_RCPP
 }
 // NuMatParC
 List NuMatParC(NumericVector c, arma::mat d);
-RcppExport SEXP NPflow_NuMatParC(SEXP cSEXP, SEXP dSEXP) {
+RcppExport SEXP _NPflow_NuMatParC(SEXP cSEXP, SEXP dSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -215,19 +215,20 @@ BEGIN_RCPP
 END_RCPP
 }
 // sampleClassC
-IntegerVector sampleClassC(arma::mat probMat);
-RcppExport SEXP NPflow_sampleClassC(SEXP probMatSEXP) {
+IntegerVector sampleClassC(arma::mat probMat, bool Log);
+RcppExport SEXP _NPflow_sampleClassC(SEXP probMatSEXP, SEXP LogSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type probMat(probMatSEXP);
-    rcpp_result_gen = Rcpp::wrap(sampleClassC(probMat));
+    Rcpp::traits::input_parameter< bool >::type Log(LogSEXP);
+    rcpp_result_gen = Rcpp::wrap(sampleClassC(probMat, Log));
     return rcpp_result_gen;
 END_RCPP
 }
 // similarityMat_nocostC
 List similarityMat_nocostC(arma::mat cc);
-RcppExport SEXP NPflow_similarityMat_nocostC(SEXP ccSEXP) {
+RcppExport SEXP _NPflow_similarityMat_nocostC(SEXP ccSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -238,7 +239,7 @@ END_RCPP
 }
 // similarityMatC
 List similarityMatC(arma::mat cc);
-RcppExport SEXP NPflow_similarityMatC(SEXP ccSEXP) {
+RcppExport SEXP _NPflow_similarityMatC(SEXP ccSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -249,7 +250,7 @@ END_RCPP
 }
 // traceEpsC
 NumericVector traceEpsC(arma::mat eps, arma::mat sigma);
-RcppExport SEXP NPflow_traceEpsC(SEXP epsSEXP, SEXP sigmaSEXP) {
+RcppExport SEXP _NPflow_traceEpsC(SEXP epsSEXP, SEXP sigmaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -261,7 +262,7 @@ END_RCPP
 }
 // vclust2mcoclustC
 List vclust2mcoclustC(NumericVector c);
-RcppExport SEXP NPflow_vclust2mcoclustC(SEXP cSEXP) {
+RcppExport SEXP _NPflow_vclust2mcoclustC(SEXP cSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -269,4 +270,32 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(vclust2mcoclustC(c));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_NPflow_FmeasureC", (DL_FUNC) &_NPflow_FmeasureC, 2},
+    {"_NPflow_FmeasureC_no0", (DL_FUNC) &_NPflow_FmeasureC_no0, 2},
+    {"_NPflow_Fmeasure_costC", (DL_FUNC) &_NPflow_Fmeasure_costC, 1},
+    {"_NPflow_mmNiWpdfC", (DL_FUNC) &_NPflow_mmNiWpdfC, 7},
+    {"_NPflow_mmsNiWpdfC", (DL_FUNC) &_NPflow_mmsNiWpdfC, 9},
+    {"_NPflow_mmvnpdfC", (DL_FUNC) &_NPflow_mmvnpdfC, 4},
+    {"_NPflow_mmvsnpdfC", (DL_FUNC) &_NPflow_mmvsnpdfC, 5},
+    {"_NPflow_mmvstpdfC", (DL_FUNC) &_NPflow_mmvstpdfC, 6},
+    {"_NPflow_mmvtpdfC", (DL_FUNC) &_NPflow_mmvtpdfC, 5},
+    {"_NPflow_mvnlikC", (DL_FUNC) &_NPflow_mvnlikC, 6},
+    {"_NPflow_mvnpdfC", (DL_FUNC) &_NPflow_mvnpdfC, 4},
+    {"_NPflow_mvsnlikC", (DL_FUNC) &_NPflow_mvsnlikC, 7},
+    {"_NPflow_mvstlikC", (DL_FUNC) &_NPflow_mvstlikC, 8},
+    {"_NPflow_NuMatParC", (DL_FUNC) &_NPflow_NuMatParC, 2},
+    {"_NPflow_sampleClassC", (DL_FUNC) &_NPflow_sampleClassC, 2},
+    {"_NPflow_similarityMat_nocostC", (DL_FUNC) &_NPflow_similarityMat_nocostC, 1},
+    {"_NPflow_similarityMatC", (DL_FUNC) &_NPflow_similarityMatC, 1},
+    {"_NPflow_traceEpsC", (DL_FUNC) &_NPflow_traceEpsC, 2},
+    {"_NPflow_vclust2mcoclustC", (DL_FUNC) &_NPflow_vclust2mcoclustC, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_NPflow(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }
