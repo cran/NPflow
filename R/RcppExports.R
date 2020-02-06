@@ -17,7 +17,7 @@ FmeasureC <- function(pred, ref) {
     .Call(`_NPflow_FmeasureC`, pred, ref)
 }
 
-#' C++ implementation of the F-measure computation without the ref classe 0
+#' C++ implementation of the F-measure computation without the reference class 0
 #'
 #' Aghaeepour in FlowCAP 1 ignore the reference class labeled "0"
 #'
@@ -41,16 +41,16 @@ FmeasureC_no0 <- function(pred, ref) {
     .Call(`_NPflow_FmeasureC_no0`, pred, ref)
 }
 
-#' Multiple cost computations with Fmeasure as the loss function
+#' Multiple cost computations with the F-measure as the loss function
 #'
-#'C++ implementation of multiple cost computations with Fmeasure as the loss
+#'C++ implementation of multiple cost computations with the F-measure as the loss
 #'function using the Armadillo library
 #'
 #'@param c a matrix where each column is one MCMC partition
 #'
 #'@return a list with the following elements:
 #'\itemize{
-#'  \item{Fmeas}{TODO}
+#'  \item{\code{Fmeas:}}{ TODO}
 #'}
 #'@export
 #'
@@ -59,16 +59,53 @@ FmeasureC_no0 <- function(pred, ref) {
 #'c <- list(c(1,1,2,3,2,3), c(1,1,1,2,3,3),c(2,2,1,1,1,1))
 #'#Fmeasure_costC(sapply(c, "["))
 #'
-#'\dontrun{
-#'c2 <- list()
-#'for(i in 1:100){
+#'if(interactive()){
+#' c2 <- list()
+#' for(i in 1:100){
 #'     c2 <- c(c2, list(rmultinom(n=1, size=2000, prob=rexp(n=2000))))
-#'}
-#'Fmeasure_costC(sapply(c2, "["))
+#' }
+#' Fmeasure_costC(sapply(c2, "["))
 #'}
 #'
 Fmeasure_costC <- function(c) {
     .Call(`_NPflow_Fmeasure_costC`, c)
+}
+
+#' C++ implementation of similarity matrix computation using pre-computed distances
+#'
+#'
+#'@param c an MCMC partitions of length \code{n}.
+#'
+#'@param d a symmetric \code{n x n} matrix containing distances
+#'between each group distributions.
+#'
+#'@author Boris Hejblum, Chariff Alkhassim
+#'
+#'@export
+#'
+#'@examples
+#'c <- c(1,1,2,3,2,3)
+#'d <- matrix(runif(length(c)^2),length(c))
+#'NuMatParC(c,d)
+#'
+#'
+NuMatParC <- function(c, d) {
+    .Call(`_NPflow_NuMatParC`, c, d)
+}
+
+#' C++ implementation of residual trace computation step used when sampling the scale
+#'
+#'@param eps a numeric matrix where each column contains the centered and unskewed observations
+#'@param sigma a numeric covariance matrix
+#'
+#'@return the computed trace
+#'
+#'@keywords internal
+#'
+#'@export
+#'
+traceEpsC <- function(eps, sigma) {
+    .Call(`_NPflow_traceEpsC`, eps, sigma)
 }
 
 #' C++ implementation of multivariate Normal inverse Wishart probability density function for multiple inputs
@@ -87,10 +124,11 @@ Fmeasure_costC <- function(c) {
 #'function. Defaults is \code{TRUE}.
 #'@return matrix of densities of dimension K x n
 #'
-#'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-#'Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-#'of Flow Cytometry Data, submitted.
-#'arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+#'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+#'Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+#'Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+#'13(1): 638-660. <doi: 10.1214/18-AOAS1209>. <arXiv: 1702.04407>. 
+#'\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
 #'
 #'@export
 #'
@@ -119,10 +157,11 @@ mmNiWpdfC <- function(Mu, Sigma, U_Mu0, U_Kappa0, U_Nu0, U_Sigma0, Log = TRUE) {
 #'function. Defaults is \code{TRUE}.
 #'@return matrix of densities of dimension \code{K x n}
 #'
-#'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-#'Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-#'of Flow Cytometry Data, submitted.
-#'arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+#'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+#'Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+#'Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+#'13(1): 638-660. <doi: 10.1214/18-AOAS1209>. <arXiv: 1702.04407>. 
+#'\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
 #'
 #'@export
 #'
@@ -340,7 +379,7 @@ mmvtpdfC <- function(x, mean, varcovM, df, Log = TRUE) {
 #'clusters
 #'@param sigma list of length \code{K} of variance-covariance matrices,
 #'each of dimensions \code{p x p}.
-#'@param loglik logical flag or returning the log-likelihood intead of the likelihood.
+#'@param loglik logical flag or returning the log-likelihood instead of the likelihood.
 #'Default is \code{TRUE}.
 #'@return a list:
 #'\itemize{
@@ -359,7 +398,7 @@ mvnlikC <- function(x, c, clustval, mu, sigma, loglik = TRUE) {
 #' multiple inputs
 #'
 #'Based on the implementation from Nino Hardt and Dicko Ahmadou
-#'http://gallery.rcpp.org/articles/dmvnorm_arma/
+#'\url{http://gallery.rcpp.org/articles/dmvnorm_arma/}
 #'(accessed in August 2014)
 #'
 #'@param x data matrix
@@ -381,7 +420,8 @@ mvnlikC <- function(x, c, clustval, mu, sigma, loglik = TRUE) {
 #'
 #'if(require(microbenchmark)){
 #' library(microbenchmark)
-#' microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+#' microbenchmark(dnorm(1.96),
+#'                mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
 #'                mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
 #'                times=10000L)
 #'}else{
@@ -404,7 +444,7 @@ mvnpdfC <- function(x, mean, varcovM, Log = TRUE) {
 #'@param psi skew parameter vectors matrix of dimension \code{p x K}
 #'@param sigma list of length \code{K} of variance-covariance matrices,
 #'each of dimensions \code{p x p}.
-#'@param loglik logical flag or returning the log-likelihood intead of the likelihood.
+#'@param loglik logical flag or returning the log-likelihood instead of the likelihood.
 #'Default is \code{TRUE}.
 #'@return a list:
 #'\itemize{
@@ -432,7 +472,7 @@ mvsnlikC <- function(x, c, clustval, xi, psi, sigma, loglik = TRUE) {
 #'@param sigma list of length \code{K} of variance-covariance matrices,
 #'each of dimensions \code{p x p}.
 #'@param df vector of length \code{K} of degree of freedom parameters.
-#'@param loglik logical flag or returning the log-likelihood intead of the likelihood.
+#'@param loglik logical flag or returning the log-likelihood instead of the likelihood.
 #'Default is \code{TRUE}.
 #'@return a list:
 #'\itemize{
@@ -447,28 +487,6 @@ mvstlikC <- function(x, c, clustval, xi, psi, sigma, df, loglik = TRUE) {
     .Call(`_NPflow_mvstlikC`, x, c, clustval, xi, psi, sigma, df, loglik)
 }
 
-#' C++ implementation of similarity matrix computation using precomputed distances
-#'
-#'
-#'@param c an MCMC partitions of length \code{n}.
-#'
-#'@param d a symmetric \code{n x n} matrix containing distances
-#'between each group distributions.
-#'
-#'@author Boris Hejblum, Chariff Alkhassim
-#'
-#'@export
-#'
-#'@examples
-#'c <- c(1,1,2,3,2,3)
-#'d <- matrix(runif(length(c)^2),length(c))
-#'NuMatParC(c,d)
-#'
-#'
-NuMatParC <- function(c, d) {
-    .Call(`_NPflow_NuMatParC`, c, d)
-}
-
 #' C++ implementation of the multinomial sampling from a matrix
 #' of column vectors, each containing the sampling probabilities
 #' for their respective draw
@@ -476,7 +494,7 @@ NuMatParC <- function(c, d) {
 #'@param probMat a numeric matrix of dim \code{k x n} of containing column vectors of sampling
 #'probabilities for each class \code{k}.
 #'
-#'@param Log a logical flag indicating wether the providede \code{probMat} is on the log scale
+#'@param Log a logical flag indicating whether the provided \code{probMat} is on the log scale
 #'or natural probability scale. Default is \code{FALSE} in which case it is considered on the natural
 #'probability scale.
 #'
@@ -489,6 +507,27 @@ NuMatParC <- function(c, d) {
 #'
 sampleClassC <- function(probMat, Log = FALSE) {
     .Call(`_NPflow_sampleClassC`, probMat, Log)
+}
+
+#' C++ implementation
+#'
+#'
+#'@param cc a matrix whose columns each represents a (MCMC) partition
+#'
+#'@export
+#'
+#'@examples
+#'c <- list(c(1,1,2,3,2,3), c(1,1,1,2,3,3),c(2,2,1,1,1,1))
+#'similarityMatC(sapply(c, "["))
+#'
+#'c2 <- list()
+#'for(i in 1:10){
+#'     c2 <- c(c2, list(rmultinom(n=1, size=200, prob=rexp(n=200))))
+#'}
+#'similarityMatC(sapply(c2, "["))
+#'
+similarityMatC <- function(cc) {
+    .Call(`_NPflow_similarityMatC`, cc)
 }
 
 #' C++ implementation
@@ -517,42 +556,6 @@ sampleClassC <- function(probMat, Log = FALSE) {
 #'}
 similarityMat_nocostC <- function(cc) {
     .Call(`_NPflow_similarityMat_nocostC`, cc)
-}
-
-#' C++ implementation
-#'
-#'
-#'@param cc a matrix whose columns each represents a (MCMC) partition
-#'
-#'@export
-#'
-#'@examples
-#'c <- list(c(1,1,2,3,2,3), c(1,1,1,2,3,3),c(2,2,1,1,1,1))
-#'similarityMatC(sapply(c, "["))
-#'
-#'c2 <- list()
-#'for(i in 1:10){
-#'     c2 <- c(c2, list(rmultinom(n=1, size=200, prob=rexp(n=200))))
-#'}
-#'similarityMatC(sapply(c2, "["))
-#'
-similarityMatC <- function(cc) {
-    .Call(`_NPflow_similarityMatC`, cc)
-}
-
-#' C++ implementation of residual trace computation step used when sampling the scale
-#'
-#'@param eps a numeric matrix where each column contains the centered and unskewed observations
-#'@param sigma a numeric covariance matrix
-#'
-#'@return the computed trace
-#'
-#'@keywords internal
-#'
-#'@export
-#'
-traceEpsC <- function(eps, sigma) {
-    .Call(`_NPflow_traceEpsC`, eps, sigma)
 }
 
 #' C++ implementation

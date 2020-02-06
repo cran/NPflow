@@ -17,7 +17,7 @@ const double log2pi2 = log(2.0 * M_PI)/2.0;
 //'@param psi skew parameter vectors matrix of dimension \code{p x K}
 //'@param sigma list of length \code{K} of variance-covariance matrices,
 //'each of dimensions \code{p x p}.
-//'@param loglik logical flag or returning the log-likelihood intead of the likelihood.
+//'@param loglik logical flag or returning the log-likelihood instead of the likelihood.
 //'Default is \code{TRUE}.
 //'@return a list:
 //'\itemize{
@@ -29,13 +29,13 @@ const double log2pi2 = log(2.0 * M_PI)/2.0;
 //'@author Boris Hejblum
 //'
 // [[Rcpp::export]]
-List mvsnlikC(arma::mat x,
-              arma::vec c,
-              arma::vec clustval,
-              arma::mat xi,
-              arma::mat psi,
-              List sigma,
-              bool loglik=true){
+List mvsnlikC(const arma::mat & x,
+              const arma::vec & c,
+              const arma::vec & clustval,
+              const arma::mat & xi,
+              const arma::mat & psi,
+              const List & sigma,
+              const bool & loglik=true){
 
   int p = x.n_rows;
   int n = x.n_cols;

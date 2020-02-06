@@ -2,11 +2,22 @@
 % Please edit documentation in R/DPMGibbsSkewN.R
 \name{DPMGibbsSkewN}
 \alias{DPMGibbsSkewN}
-\title{Slice Sampling of Dirichlet Process Mixture of skew normal ditributions}
+\title{Slice Sampling of Dirichlet Process Mixture of skew normal distributions}
 \usage{
-DPMGibbsSkewN(z, hyperG0, a = 1e-04, b = 1e-04, N, doPlot = TRUE,
-  nbclust_init = 30, plotevery = N/10, diagVar = TRUE,
-  use_variance_hyperprior = TRUE, verbose = TRUE, ...)
+DPMGibbsSkewN(
+  z,
+  hyperG0,
+  a = 1e-04,
+  b = 1e-04,
+  N,
+  doPlot = TRUE,
+  nbclust_init = 30,
+  plotevery = N/10,
+  diagVar = TRUE,
+  use_variance_hyperprior = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{z}{data matrix \code{d x n} with \code{d} dimensions in rows
@@ -23,16 +34,16 @@ then the concentration is fixed set to \code{a}.}
 
 \item{N}{number of MCMC iterations.}
 
-\item{doPlot}{logical flag indicating wether to plot MCMC iteration or not.
+\item{doPlot}{logical flag indicating whether to plot MCMC iteration or not.
 Default to \code{TRUE}.}
 
-\item{nbclust_init}{number of clusters at initialisation.
+\item{nbclust_init}{number of clusters at initialization.
 Default to 30 (or less if there are less than 30 observations).}
 
 \item{plotevery}{an integer indicating the interval between plotted iterations when \code{doPlot}
 is \code{TRUE}.}
 
-\item{diagVar}{logical flag indicating wether the variance of a cluster is a diagonal matrice.
+\item{diagVar}{logical flag indicating whether the variance of a cluster is a diagonal matrix.
 Default is \code{FALSE} (full matrix).}
 
 \item{use_variance_hyperprior}{logical flag indicating whether a hyperprior is added 
@@ -60,13 +71,13 @@ associated to partition \code{c[[j]]}}
       at each MCMC iterations}
      \item{\code{data}:}{the data matrix \code{d x n} with \code{d} dimensions in rows
 and \code{n} observations in columns}
-     \item{\code{nb_mcmcit}:}{the number of MCMC itertations}
+     \item{\code{nb_mcmcit}:}{the number of MCMC iterations}
      \item{\code{clust_distrib}:}{the parametric distribution of the mixture component - \code{"skewnorm"}}
      \item{\code{hyperG0}:}{the prior on the cluster location}
  }
 }
 \description{
-Slice Sampling of Dirichlet Process Mixture of skew normal ditributions
+Slice Sampling of Dirichlet Process Mixture of skew normal distributions
 }
 \examples{
 rm(list=ls())
@@ -99,7 +110,7 @@ for(k in 1:n){
  c[k] = which(rmultinom(n=1, size=1, prob=p)!=0)
  z[,k] <- xi[, c[k]] + psi[, c[k]]*abs(rnorm(1)) + sdev[, , c[k]]\%*\%matrix(rnorm(d, mean = 0,
                                                                        sd = 1), nrow=d, ncol=1)
- #cat(k, "/", n, " observations simulated\\n", sep="")
+ #cat(k, "/", n, " observations simulated\n", sep="")
 }
 
 # Set parameters of G0
@@ -137,7 +148,7 @@ hyperG0[["lambda"]] <- diag(d)
  levels(c2plot) <- c("3", "2", "4", "1")
  pp <- (ggplot(data.frame("X"=z[1,], "Y"=z[2,], "Cluster"=as.character(c2plot)))
        + geom_point(aes(x=X, y=Y, colour=Cluster, fill=Cluster))
-       + ggtitle("Slightly overlapping skew-normal simulation\\n")
+       + ggtitle("Slightly overlapping skew-normal simulation\n")
        + xlab("D1")
        + ylab("D2")
        + theme_bw()
@@ -155,17 +166,17 @@ hyperG0[["lambda"]] <- diag(d)
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="red")
        + ggtitle(paste("Prior distribution on alpha: Gamma(", a,
-                 ",", b, ")\\n", sep=""))
+                 ",", b, ")\n", sep=""))
       )
  p
 
 
-\dontrun{
+if(interactive()){
  # Gibbs sampler for Dirichlet Process Mixtures
  ##############################################
 
  MCMCsample_sn <- DPMGibbsSkewN(z, hyperG0, a, b, N=2500,
-                                doPlot, nbclust_init, plotevery=100,
+                                doPlot, nbclust_init, plotevery=200,
                                 gg.add=list(theme_bw(),
                                  guides(shape=guide_legend(override.aes = list(fill="grey45")))),
                                diagVar=FALSE)
@@ -202,7 +213,7 @@ hyperG0[["lambda"]] <- diag(d)
                     data=dataCenters, shape=22, size=5)
        + scale_colour_discrete(name="Cluster",
                                guide=guide_legend(override.aes=list(size=6, shape=22)))
-       + ggtitle("K-means with K=4 clusters\\n")
+       + ggtitle("K-means with K=4 clusters\n")
        + theme_bw()
  )
  p
@@ -218,7 +229,7 @@ hyperG0[["lambda"]] <- diag(d)
        + geom_histogram(aes(y=..density..), binwidth=.1,
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="blue")
-       + ggtitle("Posterior distribution of alpha\\n")
+       + ggtitle("Posterior distribution of alpha\n")
        # Ignore NA values for mean
        # Overlay with transparent density plot
        + geom_vline(aes(xintercept=mean(alpha, na.rm=T)),
@@ -230,7 +241,7 @@ hyperG0[["lambda"]] <- diag(d)
        + geom_histogram(aes(y=..density..),
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="blue")
-       + ggtitle("Posterior distribution of predicted K\\n")
+       + ggtitle("Posterior distribution of predicted K\n")
        # Ignore NA values for mean
        # Overlay with transparent density plot
        + geom_vline(aes(xintercept=mean(K, na.rm=T)),
@@ -247,7 +258,7 @@ hyperG0[["lambda"]] <- diag(d)
        + geom_density(aes(x=alpha, fill=distribution),
                       color=NA, alpha=.6,
                       data=prioralpha)
-       + ggtitle("Prior and posterior distributions of alpha\\n")
+       + ggtitle("Prior and posterior distributions of alpha\n")
        + scale_fill_discrete(drop=FALSE)
        + theme_bw()
        + xlim(0,100)
@@ -271,7 +282,7 @@ snd <- data.frame("Y"=y,"YY"=yy)
 p <- (ggplot(snd)+geom_density(aes(x=Y), fill="blue", alpha=.2)
      + theme_bw()
      + ylab("Density")
-     + ggtitle("Y~SN(0,1,10)\\n")
+     + ggtitle("Y~SN(0,1,10)\n")
      + xlim(-1,6)
      + ylim(0,0.8)
      )
@@ -280,7 +291,7 @@ p
 p <- (ggplot(snd)+geom_density(aes(x=YY), fill="blue", alpha=.2)
      + theme_bw()
      + ylab("Density")
-     + ggtitle("Y~ST(0,1,10,1.3)\\n")
+     + ggtitle("Y~ST(0,1,10,1.3)\n")
      + xlim(-2,40)
      + ylim(0,0.8)
      )
@@ -311,7 +322,7 @@ snd <- data.frame("X"=x)
 p <- (ggplot(snd)+geom_density(aes(x=X), fill="blue", alpha=.2)
      + theme_bw()
      + ylab("Density")
-     + ggtitle("X~SN(10)\\n")
+     + ggtitle("X~SN(10)\n")
      + xlim(-1.5,4)
      + ylim(0,1.6)
      )
@@ -323,7 +334,7 @@ snd <- data.frame("Y"=y)
 p <- (ggplot(snd)+geom_density(aes(x=Y), fill="blue", alpha=.2)
      + theme_bw()
      + ylab("Density")
-     + ggtitle("Y~SN(-1,1,10)\\n")
+     + ggtitle("Y~SN(-1,1,10)\n")
      + xlim(-1.5,4)
      + ylim(0,1.6)
      )
@@ -371,7 +382,7 @@ for(k in 1:n){
  c[k] = which(rmultinom(n=1, size=1, prob=p)!=0)
  z[,k] <- xi[, c[k]] + psi[, c[k]]*abs(rnorm(1)) + sdev[, , c[k]]\%*\%matrix(rnorm(d, mean = 0,
                                                                         sd = 1), nrow=d, ncol=1)
- cat(k, "/", n, " observations simulated\\n", sep="")
+ cat(k, "/", n, " observations simulated\n", sep="")
 }
 
  MCMCsample_sn_sep <- DPMGibbsSkewN(z, hyperG0, a, b, N=600,
@@ -386,10 +397,11 @@ for(k in 1:n){
 
 }
 \references{
-Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-of Flow Cytometry Data, submitted.
-arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+13(1): 638-660. <doi: 10.1214/18-AOAS1209> <arXiv: 1702.04407> 
+\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
 }
 \author{
 Boris Hejblum

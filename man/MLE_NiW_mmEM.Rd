@@ -4,8 +4,15 @@
 \alias{MLE_NiW_mmEM}
 \title{EM MLE for mixture of NiW}
 \usage{
-MLE_NiW_mmEM(mu_list, S_list, hyperG0, K, maxit = 100, tol = 0.1,
-  doPlot = TRUE)
+MLE_NiW_mmEM(
+  mu_list,
+  S_list,
+  hyperG0,
+  K,
+  maxit = 100,
+  tol = 0.1,
+  doPlot = TRUE
+)
 }
 \arguments{
 \item{mu_list}{a list of length \code{N} whose elements are observed vectors of length \code{d}
@@ -24,7 +31,7 @@ Default is \code{100}.}
 \item{tol}{real number giving the tolerance for the stopping of the EM algorithm.
 Default is \code{0.1}.}
 
-\item{doPlot}{a logical flag indicating wether the algorithm progression should be plotted. Default is \code{TRUE}.}
+\item{doPlot}{a logical flag indicating whether the algorithm progression should be plotted. Default is \code{TRUE}.}
 }
 \description{
 Maximum likelihood estimation of mixture of

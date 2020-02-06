@@ -15,11 +15,11 @@
 #'@param dims2plot index vector, subset of \code{1:d} indicating which dimensions should be drawn.
 #'Default is all of them.
 #'
-#'@param ellipses a logical flag indicating whethe ellipses should be drawn around clusters. Default
+#'@param ellipses a logical flag indicating whether ellipses should be drawn around clusters. Default
 #'is \code{TRUE} if only 2 dimensions are plotted, \code{FALSE} otherwise.
 #'
 #'@param gg.add
-#'A list of instructions to add to the ggplot2 instruction (see \code{\link[ggplot2]{gg-add}}).
+#'A list of instructions to add to the \code{ggplot2} instruction (see \code{\link[ggplot2]{gg-add}}).
 #'Default is \code{list(theme())}, which adds nothing to the plot.
 #'
 #'@param nbsim_dens number of simulated points used for computing clusters density contours in 2D
@@ -159,7 +159,6 @@ plot_DPMsn <- function(z, c, i="", alpha="?", U_SS,
         xi2plot$Center="xi param"
 
         p <- (ggplot(z2plot)
-
               + geom_point(aes_string(x="D1", y="D2", colour="Cluster"),
                            data=z2plot, size=2/(0.3*log(n)), alpha=0.7)
               + ggtitle(paste(n, " obs.",
@@ -169,8 +168,7 @@ plot_DPMsn <- function(z, c, i="", alpha="?", U_SS,
                               " (alpha = ", alpha2print, ")",
                               sep=""))
               + scale_fill_discrete(guide=FALSE)
-              + scale_colour_discrete(guide=guide_legend(override.aes = list(size = 6)))
-
+              + guides(colour=guide_legend(override.aes = list(size = 6)))
         )
 
         #empirical mean of the clusters
@@ -196,7 +194,7 @@ plot_DPMsn <- function(z, c, i="", alpha="?", U_SS,
             simuDens$Type <- "DensContour"
 
             p <- (p
-                  + geom_density2d(data=simuDens, aes_string(x="D1", y="D2", fill="Cluster",
+                  + geom_density2d(data=simuDens, aes_string(x="D1", y="D2",
                                                              colour="Cluster", linetype="Type"))
                   + scale_linetype_manual(values=c(1),
                                           labels=c("simulations derived\n from sampled parameters"),

@@ -21,22 +21,23 @@ using namespace arma;
 //'function. Defaults is \code{TRUE}.
 //'@return matrix of densities of dimension K x n
 //'
-//'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-//'Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-//'of Flow Cytometry Data, submitted.
-//'arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+//'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+//'Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+//'Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+//'13(1): 638-660. <doi: 10.1214/18-AOAS1209>. <arXiv: 1702.04407>. 
+//'\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
 //'
 //'@export
 //'
 //'
 // [[Rcpp::export]]
-NumericMatrix mmNiWpdfC(arma::mat Mu,
-                        List Sigma,
-                        arma::mat U_Mu0,
-                        NumericVector U_Kappa0,
-                        NumericVector U_Nu0,
-                        List U_Sigma0,
-                        bool Log=true){
+NumericMatrix mmNiWpdfC(const arma::mat & Mu,
+                        const List & Sigma,
+                        const arma::mat & U_Mu0,
+                        const NumericVector & U_Kappa0,
+                        const NumericVector & U_Nu0,
+                        const List & U_Sigma0,
+                        const bool & Log=true){
 
   int d = Mu.n_rows;
   int n = Mu.n_cols;

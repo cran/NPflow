@@ -4,8 +4,18 @@
 \alias{MLE_sNiW_mmEM}
 \title{EM MLE for mixture of sNiW}
 \usage{
-MLE_sNiW_mmEM(xi_list, psi_list, S_list, hyperG0, K, init = NULL,
-  maxit = 100, tol = 0.1, doPlot = TRUE, verbose = TRUE)
+MLE_sNiW_mmEM(
+  xi_list,
+  psi_list,
+  S_list,
+  hyperG0,
+  K,
+  init = NULL,
+  maxit = 100,
+  tol = 0.1,
+  doPlot = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{xi_list}{a list of length \code{N} whose elements are observed vectors of length \code{d}
@@ -31,7 +41,7 @@ Default is \code{100}.}
 \item{tol}{real number giving the tolerance for the stopping of the EM algorithm.
 Default is \code{0.1}.}
 
-\item{doPlot}{a logical flag indicating wether the algorithm progression should be plotted. Default is \code{TRUE}.}
+\item{doPlot}{a logical flag indicating whether the algorithm progression should be plotted. Default is \code{TRUE}.}
 
 \item{verbose}{logical flag indicating whether plot should be drawn. Default is \code{TRUE}.}
 }

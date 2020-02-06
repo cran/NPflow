@@ -4,7 +4,7 @@ using namespace arma;
 
 // [[Rcpp::depends(RcppArmadillo)]]
 
-//' C++ implementation of similarity matrix computation using precomputed distances
+//' C++ implementation of similarity matrix computation using pre-computed distances
 //'
 //'
 //'@param c an MCMC partitions of length \code{n}.
@@ -23,7 +23,7 @@ using namespace arma;
 //'
 //'
 // [[Rcpp::export]]
-List NuMatParC(NumericVector c, arma::mat d){
+List NuMatParC(const NumericVector & c, const arma::mat & d){
 
   int n = c.size();
 

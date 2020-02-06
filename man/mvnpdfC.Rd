@@ -22,7 +22,7 @@ vector of densities
 }
 \description{
 Based on the implementation from Nino Hardt and Dicko Ahmadou
-http://gallery.rcpp.org/articles/dmvnorm_arma/
+\url{http://gallery.rcpp.org/articles/dmvnorm_arma/}
 (accessed in August 2014)
 }
 \examples{
@@ -33,11 +33,12 @@ mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1))
 
 if(require(microbenchmark)){
 library(microbenchmark)
-microbenchmark(mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
+microbenchmark(dnorm(1.96),
+               mvnpdf(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
                mvnpdfC(x=matrix(1.96), mean=0, varcovM=diag(1), Log=FALSE),
                times=10000L)
 }else{
-cat("package 'microbenchmark' not available\\n")
+cat("package 'microbenchmark' not available\n")
 }
 
 }

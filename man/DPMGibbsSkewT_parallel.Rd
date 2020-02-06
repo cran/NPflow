@@ -2,12 +2,25 @@
 % Please edit documentation in R/DPMGibbsSkewT_parallel.R
 \name{DPMGibbsSkewT_parallel}
 \alias{DPMGibbsSkewT_parallel}
-\title{Slice Sampling of Dirichlet Process Mixture of skew  Students's t-distibutions}
+\title{Slice Sampling of Dirichlet Process Mixture of skew Student's t-distributions}
 \usage{
-DPMGibbsSkewT_parallel(Ncpus, type_connec, z, hyperG0, a = 1e-04, b = 1e-04,
-  N, doPlot = FALSE, nbclust_init = 30, plotevery = N/10,
-  diagVar = TRUE, use_variance_hyperprior = TRUE, verbose = FALSE,
-  monitorfile = "", ...)
+DPMGibbsSkewT_parallel(
+  Ncpus,
+  type_connec,
+  z,
+  hyperG0,
+  a = 1e-04,
+  b = 1e-04,
+  N,
+  doPlot = FALSE,
+  nbclust_init = 30,
+  plotevery = N/10,
+  diagVar = TRUE,
+  use_variance_hyperprior = TRUE,
+  verbose = FALSE,
+  monitorfile = "",
+  ...
+)
 }
 \arguments{
 \item{Ncpus}{the number of processors available}
@@ -30,16 +43,16 @@ then the concentration is fixed set to \code{a}.}
 
 \item{N}{number of MCMC iterations.}
 
-\item{doPlot}{logical flag indicating wether to plot MCMC iteration or not.
+\item{doPlot}{logical flag indicating whether to plot MCMC iteration or not.
 Default to \code{TRUE}.}
 
-\item{nbclust_init}{number of clusters at initialisation.
+\item{nbclust_init}{number of clusters at initialization.
 Default to 30 (or less if there are less than 30 observations).}
 
 \item{plotevery}{an integer indicating the interval between plotted iterations when \code{doPlot}
 is \code{TRUE}.}
 
-\item{diagVar}{logical flag indicating wether the variance of each cluster is
+\item{diagVar}{logical flag indicating whether the variance of each cluster is
 estimated as a diagonal matrix, or as a full matrix.
 Default is \code{TRUE} (diagonal variance).}
 
@@ -47,7 +60,7 @@ Default is \code{TRUE} (diagonal variance).}
 for the variance parameter. Default is \code{TRUE} which decrease the impact of the variance prior
 on the posterior. \code{FALSE} is useful for using an informative prior.}
 
-\item{verbose}{logical flag indicating wether partition info is
+\item{verbose}{logical flag indicating whether partition info is
 written in the console at each MCMC iteration.}
 
 \item{monitorfile}{a writable \link{connections} or a character string naming a file to write into,
@@ -79,7 +92,7 @@ and \code{n} observations in columns}
  }
 }
 \description{
-Slice Sampling of Dirichlet Process Mixture of skew  Students's t-distibutions
+Slice Sampling of Dirichlet Process Mixture of skew Student's t-distributions
 }
 \examples{
 rm(list=ls())
@@ -113,7 +126,7 @@ for(k in 1:n){
  z[,k] <- (xi[, c[k]]
           + psi[, c[k]]*abs(rnorm(1))
           + sdev[, , c[k]]\%*\%matrix(rnorm(d, mean = 0, sd = 1), nrow=d, ncol=1))
- #cat(k, "/", n, " observations simulated\\n", sep="")
+ #cat(k, "/", n, " observations simulated\n", sep="")
 }
 
 # Set parameters of G0
@@ -151,7 +164,7 @@ library(ggplot2)
  levels(c2plot) <- c("3", "2", "4", "1")
  pp <- (ggplot(data.frame("X"=z[1,], "Y"=z[2,], "Cluster"=as.character(c2plot)))
        + geom_point(aes(x=X, y=Y, colour=Cluster, fill=Cluster))
-       + ggtitle("Slightly overlapping skew-normal simulation\\n")
+       + ggtitle("Slightly overlapping skew-normal simulation\n")
        + xlab("D1")
        + ylab("D2")
        + theme_bw()
@@ -169,12 +182,12 @@ library(ggplot2)
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="red")
        + ggtitle(paste("Prior distribution on alpha: Gamma(", a,
-                 ",", b, ")\\n", sep=""))
+                 ",", b, ")\n", sep=""))
       )
  p
 
 
-\dontrun{
+if(interactive()){
  # Gibbs sampler for Dirichlet Process Mixtures
  ##############################################
  MCMCsample_st <- DPMGibbsSkewT(z, hyperG0, a, b, N=2000,
@@ -192,10 +205,11 @@ library(ggplot2)
 
 }
 \references{
-Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-of Flow Cytometry Data, submitted.
-arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+13(1): 638-660. <doi: 10.1214/18-AOAS1209> <arXiv: 1702.04407> 
+\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
 }
 \author{
 Boris Hejblum

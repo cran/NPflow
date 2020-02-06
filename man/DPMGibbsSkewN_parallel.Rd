@@ -2,12 +2,25 @@
 % Please edit documentation in R/DPMGibbsSkewN_parallel.R
 \name{DPMGibbsSkewN_parallel}
 \alias{DPMGibbsSkewN_parallel}
-\title{Parallel Implementation of Slice Sampling of Dirichlet Process Mixture of skew Normals}
+\title{Parallel Implementation of Slice Sampling of Dirichlet Process Mixture of skew normal distributions}
 \usage{
-DPMGibbsSkewN_parallel(Ncpus, type_connec, z, hyperG0, a = 1e-04, b = 1e-04,
-  N, doPlot = FALSE, nbclust_init = 30, plotevery = N/10,
-  diagVar = TRUE, use_variance_hyperprior = TRUE, verbose = FALSE,
-  monitorfile = "", ...)
+DPMGibbsSkewN_parallel(
+  Ncpus,
+  type_connec,
+  z,
+  hyperG0,
+  a = 1e-04,
+  b = 1e-04,
+  N,
+  doPlot = FALSE,
+  nbclust_init = 30,
+  plotevery = N/10,
+  diagVar = TRUE,
+  use_variance_hyperprior = TRUE,
+  verbose = FALSE,
+  monitorfile = "",
+  ...
+)
 }
 \arguments{
 \item{Ncpus}{the number of processors available}
@@ -30,16 +43,16 @@ then the concentration is fixed set to \code{a}.}
 
 \item{N}{number of MCMC iterations.}
 
-\item{doPlot}{logical flag indicating wether to plot MCMC iteration or not.
+\item{doPlot}{logical flag indicating whether to plot MCMC iteration or not.
 Default to \code{TRUE}.}
 
-\item{nbclust_init}{number of clusters at initialisation.
+\item{nbclust_init}{number of clusters at initialization.
 Default to 30 (or less if there are less than 30 observations).}
 
 \item{plotevery}{an integer indicating the interval between plotted iterations when \code{doPlot}
 is \code{TRUE}.}
 
-\item{diagVar}{logical flag indicating wether the variance of each cluster is
+\item{diagVar}{logical flag indicating whether the variance of each cluster is
 estimated as a diagonal matrix, or as a full matrix.
 Default is \code{TRUE} (diagonal variance).}
 
@@ -47,7 +60,7 @@ Default is \code{TRUE} (diagonal variance).}
 for the variance parameter. Default is \code{TRUE} which decrease the impact of the variance prior
 on the posterior. \code{FALSE} is useful for using an informative prior.}
 
-\item{verbose}{logical flag indicating wether partition info is
+\item{verbose}{logical flag indicating whether partition info is
 written in the console at each MCMC iteration.}
 
 \item{monitorfile}{a writable \link{connections} or a character string naming a file to write into,
@@ -72,7 +85,7 @@ associated to partition \code{c[[j]]}}
       at each MCMC iterations}
      \item{\code{data}:}{the data matrix \code{d x n} with \code{d} dimensions in rows
 and \code{n} observations in columns}
-     \item{\code{nb_mcmcit}:}{the number of MCMC itertations}
+     \item{\code{nb_mcmcit}:}{the number of MCMC iterations}
      \item{\code{clust_distrib}:}{the parametric distribution of the mixture component - \code{"skewnorm"}}
      \item{\code{hyperG0}:}{the prior on the cluster location}
  }
@@ -111,7 +124,7 @@ for(k in 1:n){
  c[k] = which(rmultinom(n=1, size=1, prob=p)!=0)
  z[,k] <- xi[, c[k]] + psi[, c[k]]*abs(rnorm(1)) + sdev[, , c[k]]\%*\%matrix(rnorm(d, mean = 0,
                                                                         sd = 1), nrow=d, ncol=1)
- #cat(k, "/", n, " observations simulated\\n", sep="")
+ #cat(k, "/", n, " observations simulated\n", sep="")
 }
 
 # Set parameters of G0
@@ -156,7 +169,7 @@ library(ggplot2)
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="red")
        + ggtitle(paste("Prior distribution on alpha: Gamma(", a,
-                 ",", b, ")\\n", sep=""))
+                 ",", b, ")\n", sep=""))
       )
  p
 
@@ -164,24 +177,25 @@ library(ggplot2)
 
  # Gibbs sampler for Dirichlet Process Mixtures
  ##############################################
- \dontrun{
- MCMCsample_sn_par <- DPMGibbsSkewN_parallel(Ncpus=parallel::detectCores()-1,
-                                             type_connec="SOCK", z, hyperG0,
-                                             a, b, N=5000, doPlot, nbclust_init,
-                                             plotevery=25, gg.add=list(theme_bw(),
+ if(interactive()){
+  MCMCsample_sn_par <- DPMGibbsSkewN_parallel(Ncpus=parallel::detectCores()-1,
+                                              type_connec="SOCK", z, hyperG0,
+                                              a, b, N=5000, doPlot, nbclust_init,
+                                              plotevery=25, gg.add=list(theme_bw(),
                                 guides(shape=guide_legend(override.aes = list(fill="grey45")))))
- plot_ConvDPM(MCMCsample_sn_par, from=2)
-}
+  plot_ConvDPM(MCMCsample_sn_par, from=2)
+ }
 
 
 
 
 }
 \references{
-Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-of Flow Cytometry Data, submitted.
-arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+13(1): 638-660. <doi: 10.1214/18-AOAS1209> <arXiv: 1702.04407> 
+\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
 }
 \author{
 Boris Hejblum

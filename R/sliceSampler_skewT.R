@@ -20,7 +20,7 @@ sliceSampler_skewT <- function(c, m, alpha, z, hyperG0, U_xi, U_psi,
     #R is the rest, i.e. the weight for potential new clusters
 
     # Sample the latent u
-    u  <-stats::runif(maxCl)*w[c]
+    u  <-stats::runif(length(c))*w[c]
     u_star <- min(u)
 
     # Sample the remaining weights that are needed with stick-breaking
@@ -112,7 +112,7 @@ sliceSampler_skewT <- function(c, m, alpha, z, hyperG0, U_xi, U_psi,
         psi <- U_psi[,k, drop=FALSE]
         A_k <-  1/(1 + (crossprod(psi, siginv)%*%psi))
         a_ik <- (tcrossprod(A_k, psi)%*%siginv%*%(z[,obs_k, drop=FALSE]-U_xi[,k]))
-        A_k <- A_k/scale[obs_k]
+        A_k <- c(A_k)/scale[obs_k]
         ltn[obs_k] <- rtruncnorm(sum(obs_k), a=0, b=Inf, mean = a_ik, sd = sqrt(A_k))
     }
 

@@ -4,9 +4,20 @@
 \alias{DPMGibbsN}
 \title{Slice Sampling of the Dirichlet Process Mixture Model with a prior on alpha}
 \usage{
-DPMGibbsN(z, hyperG0, a = 1e-04, b = 1e-04, N, doPlot = TRUE,
-  nbclust_init = 30, plotevery = N/10, diagVar = TRUE,
-  use_variance_hyperprior = TRUE, verbose = TRUE, ...)
+DPMGibbsN(
+  z,
+  hyperG0,
+  a = 1e-04,
+  b = 1e-04,
+  N,
+  doPlot = TRUE,
+  nbclust_init = 30,
+  plotevery = N/10,
+  diagVar = TRUE,
+  use_variance_hyperprior = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{z}{data matrix \code{d x n} with \code{d} dimensions in rows and \code{n} observations in
@@ -22,10 +33,10 @@ Process. Default is \code{0.0001}. If \code{0}, then the concentration is fixed 
 
 \item{N}{number of MCMC iterations.}
 
-\item{doPlot}{logical flag indicating wether to plot MCMC iteration or not. Default to
+\item{doPlot}{logical flag indicating whether to plot MCMC iteration or not. Default to
 \code{TRUE}.}
 
-\item{nbclust_init}{number of clusters at initialisation. Default to 30 (or less if there are less
+\item{nbclust_init}{number of clusters at initialization. Default to 30 (or less if there are less
 than 30 observations).}
 
 \item{plotevery}{an integer indicating the interval between plotted iterations when \code{doPlot}
@@ -38,7 +49,7 @@ diagonal matrix, or as a full matrix. Default is \code{TRUE} (diagonal variance)
 for the variance parameter. Default is \code{TRUE} which decrease the impact of the variance prior
 on the posterior. \code{FALSE} is useful for using an informative prior.}
 
-\item{verbose}{logical flag indicating wether partition info is written in the console at each
+\item{verbose}{logical flag indicating whether partition info is written in the console at each
 MCMC iteration.}
 
 \item{...}{additional arguments to be passed to \code{\link{plot_DPM}}. Only used if \code{doPlot}
@@ -64,7 +75,7 @@ associated to partition \code{c[[j]]}}
       at each MCMC iterations}
      \item{\code{data}:}{ the data matrix \code{d x n} with \code{d} dimensions in rows
 and \code{n} observations in columns.}
-     \item{\code{nb_mcmcit}:}{ the number of MCMC itertations}
+     \item{\code{nb_mcmcit}:}{ the number of MCMC iterations}
      \item{\code{clust_distrib}:}{the parametric distribution of the mixture component - \code{"gaussian"}}
      \item{\code{hyperG0}:}{the prior on the cluster location}
  }
@@ -95,7 +106,7 @@ z <- matrix(0, nrow=2, ncol=n)
 for(k in 1:n){
  c[k] = which(rmultinom(n=1, size=1, prob=p)!=0)
  z[,k] <- m[, c[k]] + sdev[, , c[k]]\%*\%matrix(rnorm(2, mean = 0, sd = 1), nrow=2, ncol=1)
- #cat(k, "/", n, " observations simulated\\n", sep="")
+ #cat(k, "/", n, " observations simulated\n", sep="")
 }
 
  d<-2
@@ -138,16 +149,16 @@ for(k in 1:n){
                         colour="black", fill="white", bins=30)
        + geom_density(alpha=.6, fill="red", color=NA)
        + ggtitle(paste("Prior distribution on alpha: Gamma(", a,
-                 ",", b, ")\\n", sep=""))
+                 ",", b, ")\n", sep=""))
        + theme_bw()
       )
  p
 
 
-
+if(interactive()){
  # Gibbs sampler for Dirichlet Process Mixtures
  ##############################################
-\dontrun{
+
  MCMCsample <- DPMGibbsN(z, hyperG0, a, b, N=500, doPlot, nbclust_init, plotevery=100,
                          gg.add=list(theme_bw(),
                                  guides(shape=guide_legend(override.aes = list(fill="grey45")))),
@@ -167,7 +178,7 @@ for(k in 1:n){
        + geom_histogram(aes(y=..density..), binwidth=.1,
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="blue")
-       + ggtitle("Posterior distribution of alpha\\n")
+       + ggtitle("Posterior distribution of alpha\n")
        # Ignore NA values for mean
        # Overlay with transparent density plot
        + geom_vline(aes(xintercept=mean(alpha, na.rm=TRUE)),
@@ -182,7 +193,7 @@ for(k in 1:n){
        #+ geom_density(aes(x=alpha, fill=distribution),
        #               color=NA, alpha=.6,
        #               data=postalpha)
-       + ggtitle("Prior and posterior distributions of alpha\\n")
+       + ggtitle("Prior and posterior distributions of alpha\n")
        + scale_fill_discrete(drop=FALSE)
        + theme_bw()
        +xlim(0,10)
@@ -210,7 +221,7 @@ for(k in 1:n){
        + geom_point(aes(x=X, y=Y, fill=Cluster, order=Cluster),
                     data=dataCenters, shape=22, size=5)
        + scale_colour_discrete(name="Cluster")
-       + ggtitle("K-means with K=4 clusters\\n"))
+       + ggtitle("K-means with K=4 clusters\n"))
  p
 
 

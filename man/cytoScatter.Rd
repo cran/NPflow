@@ -4,8 +4,15 @@
 \alias{cytoScatter}
 \title{Scatterplot of flow cytometry data}
 \usage{
-cytoScatter(cytomatrix, dims2plot = c(1, 2), gating = NULL,
-  scale_log = FALSE, xlim = NULL, ylim = NULL, gg.add = list(theme()))
+cytoScatter(
+  cytomatrix,
+  dims2plot = c(1, 2),
+  gating = NULL,
+  scale_log = FALSE,
+  xlim = NULL,
+  ylim = NULL,
+  gg.add = list(theme())
+)
 }
 \arguments{
 \item{cytomatrix}{a \code{p x n} data matrix, of \code{n} cell observations measured over \code{p}
@@ -17,7 +24,7 @@ Default is \code{c(1, 2)}.}
 \item{gating}{an optional vector of length \code{n} indicating a known gating of the cells to be 
 displayed. Default is \code{NULL} in which case no gating is displayed.}
 
-\item{scale_log}{a logical Flag indicating wether the data should be plotted on the log scale.
+\item{scale_log}{a logical Flag indicating whether the data should be plotted on the log scale.
 Default is \code{FALSE}.}
 
 \item{xlim}{a vector of length 2 to specify the x-axis limits. Only used if \code{dims2plot} is
@@ -26,7 +33,7 @@ of length 2Default is the data range.}
 \item{ylim}{a vector of length 2 to specify the y-axis limits. Only used if \code{dims2plot} is
 of length 2. Default is the data range.}
 
-\item{gg.add}{A list of instructions to add to the ggplot2 instruction (see \code{\link[ggplot2]{gg-add}}).
+\item{gg.add}{A list of instructions to add to the \code{ggplot2} instruction (see \code{\link[ggplot2]{gg-add}}).
 Default is \code{list(theme())}, which adds nothing.
 to the plot.}
 }
@@ -57,7 +64,7 @@ z <- matrix(0, nrow=2, ncol=n)
 for(k in 1:n){
  c[k] = which(rmultinom(n=1, size=1, prob=p)!=0)
  z[,k] <- m[, c[k]] + sdev[, , c[k]]\%*\%matrix(rnorm(2, mean = 0, sd = 1), nrow=2, ncol=1)
- #cat(k, "/", n, " observations simulated\\n", sep="")
+ #cat(k, "/", n, " observations simulated\n", sep="")
 }
 
 cytoScatter(z)

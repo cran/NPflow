@@ -27,10 +27,10 @@
 #'@param dims2plot index vector, subset of \code{1:d} indicating which dimensions should be drawn.
 #'Default is all of them.
 #'
-#'@param ellipses a logical flag indicating whethe ellipses should be drawn around clusters. Default
+#'@param ellipses a logical flag indicating whether ellipses should be drawn around clusters. Default
 #'is \code{TRUE} if only 2 dimensions are plotted, \code{FALSE} otherwise.
 #'
-#'@param gg.add a list of instructions to add to the ggplot2 instruction (see 
+#'@param gg.add a list of instructions to add to the \code{ggplot2} instruction (see 
 #'\code{\link[ggplot2]{gg-add}}). Default is \code{list(theme())}, which adds 
 #'nothing to the plot.
 #'
@@ -153,7 +153,7 @@ plot_DPM <- function(z, U_mu=NULL, U_Sigma=NULL, m, c, i, alpha="?", U_SS=NULL,
                           " (alpha = ", alpha2print, ")",
                           sep=""))
           + scale_fill_discrete(guide=FALSE)
-          + scale_colour_discrete(guide=guide_legend(override.aes = list(size = 6)))
+          + guides(colour = guide_legend(override.aes = list(size = 6)))
     )
   }else{
     z2plot <- cbind.data.frame("D1"=z[1,],"D2"=z[2,],"Cluster"=zClusters)

@@ -27,23 +27,24 @@ using namespace arma;
 //'function. Defaults is \code{TRUE}.
 //'@return matrix of densities of dimension \code{K x n}
 //'
-//'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-//'Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-//'of Flow Cytometry Data, submitted.
-//'arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+//'@references Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+//'Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+//'Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+//'13(1): 638-660. <doi: 10.1214/18-AOAS1209>. <arXiv: 1702.04407>. 
+//'\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
 //'
 //'@export
 //'
 // [[Rcpp::export]]
-NumericMatrix mmsNiWpdfC(arma::mat xi,
-                         arma::mat psi,
-                         List Sigma,
-                         arma::mat U_xi0,
-                         arma::mat U_psi0,
-                         List U_B0,
-                         List U_Sigma0,
-                         NumericVector U_df0,
-                         bool Log=true){
+NumericMatrix mmsNiWpdfC(const arma::mat & xi,
+                         const arma::mat & psi,
+                         const List & Sigma,
+                         const arma::mat & U_xi0,
+                         const arma::mat & U_psi0,
+                         const List & U_B0,
+                         const List & U_Sigma0,
+                         const NumericVector & U_df0,
+                         const bool & Log=true){
 
     int d = xi.n_rows;
     int n = xi.n_cols;

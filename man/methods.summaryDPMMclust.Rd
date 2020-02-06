@@ -4,14 +4,19 @@
 \alias{print.summaryDPMMclust}
 \alias{summaryDPMMclust}
 \alias{plot.summaryDPMMclust}
-\alias{plot.summaryDPMMclust}
-\title{Methods for a summary of a 'DPMMclust' object}
+\title{Methods for a summary of a \code{DPMMclust} object}
 \usage{
 \method{print}{summaryDPMMclust}(x, ...)
 
-\method{plot}{summaryDPMMclust}(x, hm = FALSE, nbsim_densities = 5000,
-  hm_subsample = NULL, hm_order_by_clust = TRUE,
-  gg.add = list(theme_bw()), ...)
+\method{plot}{summaryDPMMclust}(
+  x,
+  hm = FALSE,
+  nbsim_densities = 5000,
+  hm_subsample = NULL,
+  hm_order_by_clust = TRUE,
+  gg.add = list(theme_bw()),
+  ...
+)
 }
 \arguments{
 \item{x}{a \code{summaryDPMMclust} object.}
@@ -31,11 +36,11 @@ all observations are plotted.}
 \item{hm_order_by_clust}{logical flag indicating whether observations should be ordered according to
 the point estimate first. Used only if \code{hm} is \code{TRUE}. Default is \code{TRUE}.}
 
-\item{gg.add}{a list of instructions to add to the ggplot2 instruction (see 
+\item{gg.add}{a list of instructions to add to the \code{ggplot2} instruction (see 
 \code{\link[ggplot2]{gg-add}}). Default is \code{list(theme())}, which adds nothing to the plot.}
 }
 \description{
-Methods for a summary of a 'DPMMclust' object
+Methods for a summary of a \code{DPMMclust} object
 }
 \author{
 Boris Hejblum

@@ -4,9 +4,19 @@
 \alias{plot_DPM}
 \title{Plot of a Dirichlet process mixture of gaussian distribution partition}
 \usage{
-plot_DPM(z, U_mu = NULL, U_Sigma = NULL, m, c, i, alpha = "?",
-  U_SS = NULL, dims2plot = 1:nrow(z), ellipses = ifelse(length(dims2plot)
-  < 3, TRUE, FALSE), gg.add = list(theme()))
+plot_DPM(
+  z,
+  U_mu = NULL,
+  U_Sigma = NULL,
+  m,
+  c,
+  i,
+  alpha = "?",
+  U_SS = NULL,
+  dims2plot = 1:nrow(z),
+  ellipses = ifelse(length(dims2plot) < 3, TRUE, FALSE),
+  gg.add = list(theme())
+)
 }
 \arguments{
 \item{z}{data matrix \code{d x n} with \code{d} dimensions in rows
@@ -36,10 +46,10 @@ clusters.}
 \item{dims2plot}{index vector, subset of \code{1:d} indicating which dimensions should be drawn.
 Default is all of them.}
 
-\item{ellipses}{a logical flag indicating whethe ellipses should be drawn around clusters. Default
+\item{ellipses}{a logical flag indicating whether ellipses should be drawn around clusters. Default
 is \code{TRUE} if only 2 dimensions are plotted, \code{FALSE} otherwise.}
 
-\item{gg.add}{a list of instructions to add to the ggplot2 instruction (see 
+\item{gg.add}{a list of instructions to add to the \code{ggplot2} instruction (see 
 \code{\link[ggplot2]{gg-add}}). Default is \code{list(theme())}, which adds 
 nothing to the plot.}
 }

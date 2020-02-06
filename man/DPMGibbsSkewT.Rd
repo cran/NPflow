@@ -2,17 +2,50 @@
 % Please edit documentation in R/DPMGibbsSkewT.R
 \name{DPMGibbsSkewT}
 \alias{DPMGibbsSkewT}
-\title{Slice Sampling of Dirichlet Process Mixture of skew Students's t-distibutions}
+\title{Slice Sampling of Dirichlet Process Mixture of skew Student's t-distributions}
 \usage{
-DPMGibbsSkewT(z, hyperG0, a = 1e-04, b = 1e-04, N, doPlot = TRUE,
-  nbclust_init = 30, plotevery = N/10, diagVar = TRUE,
-  use_variance_hyperprior = TRUE, verbose = TRUE, ...)
+DPMGibbsSkewT(
+  z,
+  hyperG0,
+  a = 1e-04,
+  b = 1e-04,
+  N,
+  doPlot = TRUE,
+  nbclust_init = 30,
+  plotevery = N/10,
+  diagVar = TRUE,
+  use_variance_hyperprior = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{z}{data matrix \code{d x n} with \code{d} dimensions in rows
 and \code{n} observations in columns.}
 
-\item{hyperG0}{prior mixing distribution.}
+\item{hyperG0}{parameters of the prior mixing distribution in a \code{list} with the following named components:
+\itemize{
+ \item{\code{"b_xi"}:  a vector of length \code{d} with the mean location prior parameter. 
+ Can be set as the empirical mean of the data in an Empirical Bayes fashion.}
+ \item{\code{"b_psi"}: a vector of length \code{d} with the skewness location prior 
+ parameter. Can be set as 0 a priori.}
+ \item{\code{"kappa"}: a strictly positive number part of the inverse-Wishart 
+ component of the prior on the variance matrix. Can be set as very small (e.g. 
+ 0.001) a priori.}
+ \item{\code{"D_xi"}: hyperprior controlling the information in \eqn{\xi} (the larger
+ the less information is carried). 100 is a reasonable value, based on 
+ Fruhwirth-Schnatter et al., Biostatistics, 2010.}
+ \item{\code{"D_psi"}: hyperprior controlling the information in \eqn{\psi} (the larger
+ the less information is carried). 100 is a reasonable value, based on 
+ Fruhwirth-Schnatter et al., Biostatistics, 2010}
+ \item{\code{"nu"}: a prior number on the degrees of freedom of the \eqn{t} component that must be
+ strictly greater than \code{d}. Can be set as \code{d + 1} for instance.}
+ \item{\code{"lambda"}: a \code{d x d} symmetric definitive positive matrix 
+ part of the inverse-Wishart component of the prior on the variance matrix. 
+ Can be set as the diagonal of empirical variance of the data in an Empircal 
+ Bayes fashion divided by a factor 3 according to Fruhwirth-Schnatter et al., 
+ Biostatistics, 2010.}
+}}
 
 \item{a}{shape hyperparameter of the Gamma prior
 on the concentration parameter of the Dirichlet Process. Default is \code{0.0001}.}
@@ -23,16 +56,16 @@ then the concentration is fixed set to \code{a}.}
 
 \item{N}{number of MCMC iterations.}
 
-\item{doPlot}{logical flag indicating wether to plot MCMC iteration or not.
+\item{doPlot}{logical flag indicating whether to plot MCMC iteration or not.
 Default to \code{TRUE}.}
 
-\item{nbclust_init}{number of clusters at initialisation.
+\item{nbclust_init}{number of clusters at initialization.
 Default to 30 (or less if there are less than 30 observations).}
 
 \item{plotevery}{an integer indicating the interval between plotted iterations when \code{doPlot}
 is \code{TRUE}.}
 
-\item{diagVar}{logical flag indicating wether the variance of each cluster is
+\item{diagVar}{logical flag indicating whether the variance of each cluster is
 estimated as a diagonal matrix, or as a full matrix.
 Default is \code{TRUE} (diagonal variance).}
 
@@ -49,26 +82,26 @@ Only used if \code{doPlot} is \code{TRUE}.}
 \value{
 a object of class \code{DPMclust} with the following attributes:
  \itemize{
-     \item{\code{mcmc_partitions}:}{ a list of length \code{N}. Each
+     \item{\code{mcmc_partitions}: }{ a list of length \code{N}. Each
       element \code{mcmc_partitions[n]} is a vector of length
       \code{n} giving the partition of the \code{n} observations.}
-     \item{\code{alpha}:}{a vector of length \code{N}. \code{cost[j]} is the cost
+     \item{\code{alpha}: }{a vector of length \code{N}. \code{cost[j]} is the cost
 associated to partition \code{c[[j]]}}
-      \item{\code{U_SS_list}:}{a list of length \code{N} containing the lists of
+      \item{\code{U_SS_list}: }{a list of length \code{N} containing the lists of
       sufficient statistics for all the mixture components at each MCMC iteration}
-     \item{\code{weights_list}:}{a list of length \code{N} containing the weights of each
+     \item{\code{weights_list}: }{a list of length \code{N} containing the weights of each
      mixture component for each MCMC iterations}
-     \item{\code{logposterior_list}:}{a list of length \code{N} containing the logposterior values
+     \item{\code{logposterior_list}: }{a list of length \code{N} containing the logposterior values
       at each MCMC iterations}
-     \item{\code{data}:}{the data matrix \code{d x n} with \code{d} dimensions in rows
+     \item{\code{data}: }{the data matrix \code{d x n} with \code{d} dimensions in rows
 and \code{n} observations in columns}
-     \item{\code{nb_mcmcit}:}{the number of MCMC itertations}
-     \item{\code{clust_distrib}:}{the parametric distribution of the mixture component - \code{"skewt"}}
-     \item{\code{hyperG0}:}{the prior on the cluster location}
+     \item{\code{nb_mcmcit}: }{the number of MCMC iterations}
+     \item{\code{clust_distrib}: }{the parametric distribution of the mixture component - \code{"skewt"}}
+     \item{\code{hyperG0}: }{the prior on the cluster location}
  }
 }
 \description{
-Slice Sampling of Dirichlet Process Mixture of skew Students's t-distibutions
+Slice Sampling of Dirichlet Process Mixture of skew Student's t-distributions
 }
 \examples{
 rm(list=ls())
@@ -106,7 +139,7 @@ for(k in 1:n){
  w[k] <- rgamma(1, shape=nu[c[k]]/2, rate=nu[c[k]]/2)
  z[,k] <- xi[, c[k]] + psi[, c[k]]*rtruncnorm(n=1, a=0, b=Inf, mean=0, sd=1/sqrt(w[k])) +
                 (sdev[, , c[k]]/sqrt(w[k]))\%*\%matrix(rnorm(d, mean = 0, sd = 1), nrow=d, ncol=1)
- #cat(k, "/", n, " observations simulated\\n", sep="")
+ #cat(k, "/", n, " observations simulated\n", sep="")
 }
 
 # Set parameters of G0
@@ -140,7 +173,7 @@ hyperG0[["lambda"]] <- diag(apply(z,MARGIN=1, FUN=var))/3
  levels(c2plot) <- c("4", "1", "3", "2")
  pp <- (ggplot(data.frame("X"=z[1,], "Y"=z[2,], "Cluster"=as.character(c2plot)))
        + geom_point(aes(x=X, y=Y, colour=Cluster, fill=Cluster))
-       #+ ggtitle("Slightly overlapping skew-normal simulation\\n")
+       #+ ggtitle("Slightly overlapping skew-normal simulation\n")
        + xlab("D1")
        + ylab("D2")
        + theme_bw()
@@ -158,13 +191,13 @@ hyperG0[["lambda"]] <- diag(apply(z,MARGIN=1, FUN=var))/3
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="red")
        + ggtitle(paste("Prior distribution on alpha: Gamma(", a,
-                 ",", b, ")\\n", sep=""))
+                 ",", b, ")\n", sep=""))
       )
  p
 
 
 
-\dontrun{
+if(interactive()){
  # Gibbs sampler for Dirichlet Process Mixtures
  ##############################################
  MCMCsample_st <- DPMGibbsSkewT(z, hyperG0, a, b, N=1500,
@@ -179,10 +212,15 @@ hyperG0[["lambda"]] <- diag(apply(z,MARGIN=1, FUN=var))/3
 
 }
 \references{
-Hejblum BP, Alkhassim C, Gottardo R, Caron F, Thiebaut R, Sequential Dirichlet
-Process Mixtures of Multivariate Skew t-distributions for Model-based Clustering
-of Flow Cytometry Data, submitted.
-arxiv ID: 1702.04407 \url{https://arxiv.org/abs/1702.04407v2}
+Hejblum BP, Alkhassim C, Gottardo R, Caron F and Thiebaut R (2019) 
+Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
+Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
+13(1): 638-660. <doi: 10.1214/18-AOAS1209> <arXiv: 1702.04407> 
+\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
+
+Fruhwirth-Schnatter S, Pyne S, Bayesian inference for finite mixtures 
+of univariate and multivariate skew-normal and skew-t distributions, Biostatistics,
+2010.
 }
 \author{
 Boris Hejblum

@@ -23,7 +23,7 @@ Default is \code{0.0001}. If \code{0} then the concentration is fixed and this f
 returns \code{a}.}
 }
 \description{
-Sampler udating the concentration parameter of a Dirichlet process given
+Sampler updating the concentration parameter of a Dirichlet process given
 the number of observations and a Gamma(\code{a}, \code{b}) prior, following the augmentation
 strategy of West, and of Escobar and West.
 }
@@ -65,7 +65,7 @@ round(expK)
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="red")
        + ggtitle(paste("Prior distribution on alpha: Gamma(", a,
-                 ",", b, ")\\n", sep=""))
+                 ",", b, ")\n", sep=""))
       )
  p
 
@@ -76,7 +76,7 @@ postalpha.df <- data.frame("alpha"=postalphas,
        + geom_histogram(aes(y=..density..), binwidth=.1,
                         colour="black", fill="white")
        + geom_density(alpha=.2, fill="blue")
-       + ggtitle("Posterior distribution of alpha\\n")
+       + ggtitle("Posterior distribution of alpha\n")
        # Ignore NA values for mean
        # Overlay with transparent density plot
        + geom_vline(aes(xintercept=mean(alpha, na.rm=TRUE)),
