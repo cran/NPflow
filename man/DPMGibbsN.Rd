@@ -57,7 +57,6 @@ is \code{TRUE}.}
 }
 \value{
 a object of class \code{DPMclust} with the following attributes:
- \itemize{
      \item{\code{mcmc_partitions}:}{ a list of length \code{N}. Each
       element \code{mcmc_partitions[n]} is a vector of length
       \code{n} giving the partition of the \code{n} observations.}
@@ -78,7 +77,6 @@ and \code{n} observations in columns.}
      \item{\code{nb_mcmcit}:}{ the number of MCMC iterations}
      \item{\code{clust_distrib}:}{the parametric distribution of the mixture component - \code{"gaussian"}}
      \item{\code{hyperG0}:}{the prior on the cluster location}
- }
 }
 \description{
 Slice Sampling of the Dirichlet Process Mixture Model with a prior on alpha
@@ -87,29 +85,30 @@ Slice Sampling of the Dirichlet Process Mixture Model with a prior on alpha
 rm(list=ls())
 #Number of data
 n <- 500
+d <- 4
 #n <- 2000
 set.seed(1234)
 #set.seed(123)
 #set.seed(4321)
 
 # Sample data
-m <- matrix(nrow=2, ncol=4, c(-1, 1, 1.5, 2, 2, -2, -1.5, -2))
+m <- matrix(nrow=d, ncol=4, c(-1, 1, 1.5, 2, 2, -2, -1.5, -2))
 p <- c(0.2, 0.1, 0.4, 0.3) # frequence des clusters
 
-sdev <- array(dim=c(2,2,4))
-sdev[, ,1] <- matrix(nrow=2, ncol=2, c(0.3, 0, 0, 0.3))
-sdev[, ,2] <- matrix(nrow=2, ncol=2, c(0.1, 0, 0, 0.3))
-sdev[, ,3] <- matrix(nrow=2, ncol=2, c(0.3, 0.15, 0.15, 0.3))
-sdev[, ,4] <- .3*diag(2)
+sdev <- array(dim=c(d,d,4))
+sdev[, ,1] <- 0.3*diag(d)
+sdev[, ,2] <- c(0.1, 0.3)*diag(d)
+sdev[, ,3] <- matrix(nrow=d, ncol=d, 0.15)
+diag(sdev[, ,3]) <- 0.3
+sdev[, ,4] <- 0.3*diag(d)
 c <- rep(0,n)
-z <- matrix(0, nrow=2, ncol=n)
+z <- matrix(0, nrow=d, ncol=n)
 for(k in 1:n){
  c[k] = which(rmultinom(n=1, size=1, prob=p)!=0)
- z[,k] <- m[, c[k]] + sdev[, , c[k]]\%*\%matrix(rnorm(2, mean = 0, sd = 1), nrow=2, ncol=1)
+ z[,k] <- m[, c[k]] + sdev[, , c[k]]\%*\%matrix(rnorm(d, mean = 0, sd = 1), nrow=d, ncol=1)
  #cat(k, "/", n, " observations simulated\n", sep="")
 }
 
- d<-2
  # Set parameters of G0
  hyperG0 <- list()
  hyperG0[["mu"]] <- rep(0,d)

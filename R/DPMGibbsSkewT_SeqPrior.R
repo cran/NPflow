@@ -35,7 +35,6 @@
 #'Only used if \code{doPlot} is \code{TRUE}.
 #'
 #'@return a object of class \code{DPMclust} with the following attributes:
-#'  \itemize{
 #'      \item{\code{mcmc_partitions}:}{a list of length \code{N}. Each
 #'       element \code{mcmc_partitions[n]} is a vector of length
 #'       \code{n} giving the partition of the \code{n} observations.}
@@ -52,7 +51,6 @@
 #'      \item{\code{nb_mcmcit}:}{the number of MCMC iterations}
 #'      \item{\code{clust_distrib}:}{the parametric distribution of the mixture component - \code{"skewt"}}
 #'      \item{\code{hyperG0}:}{the prior on the cluster location}
-#'  }
 #'
 #'@author Boris Hejblum
 #'
@@ -60,7 +58,7 @@
 #'Sequential Dirichlet Process Mixtures of Multivariate Skew t-distributions for 
 #'Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics, 
 #'13(1): 638-660. <doi: 10.1214/18-AOAS1209> <arXiv: 1702.04407> 
-#'\url{https://arxiv.org/abs/1702.04407} \url{https://doi.org/10.1214/18-AOAS1209}
+#'\url{https://arxiv.org/abs/1702.04407} \doi{10.1214/18-AOAS1209}
 #'
 #'@export
 #'

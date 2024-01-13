@@ -10,7 +10,7 @@
 #'Default is \code{1}, i.e. no thining.
 #'
 #'@param lossFn character string specifying the loss function to be used.
-#'Either "F-measure" or "Binder" (see Details). Default is "F-measure".
+#'Either "F-measure" or "Binder" (see Details). Default is "Binder".
 #'
 #'@param gs optional vector of length \code{n} containing the gold standard
 #'partition of the \code{n} observations to compare to the point estimate
@@ -21,31 +21,31 @@
 #'@param ... further arguments passed to or from other methods
 #'
 #'@return a \code{list} containing the following elements:
-#'  \itemize{
-#'      \item{\code{nb_mcmcit}:}{ an integer giving the value of \code{m}, the number of retained 
-#'      sampled partitions, i.e. \code{(N - burnin)/thin}}
-#'      \item{\code{burnin}:}{ an integer passing along the \code{burnin} argument}
-#'      \item{\code{thin}:}{ an integer passing along the \code{thin} argument}
-#'      \item{\code{lossFn}:}{ a character string passing along the \code{lossFn} argument}
-#'      \item{\code{clust_distrib}:}{ a character string passing along the \code{clust_distrib} argument }
-#'      \item{\code{point_estim}:}{ a \code{list} containing: \itemize{
-#'          \item{\code{c_est}:}{ a vector of length \code{n}containing the point estimated clustering for each observations}
-#'          \item{\code{cost}:}{ a vector of length \code{m} containing the cost of each sampled partition}
-#'          \item{\code{Fmeas}:}{ if \code{lossFn} is \code{'F-measure'}, the \code{m x m} matrix of total F-measures for each pair of sampled partitions}
-#'          \item{\code{opt_ind}:}{ the index of the point estimate partition among the \code{m} sampled}
-#'      }}
-#'      \item{\code{loss}:}{ the loss for the point estimate. \code{NA} if \code{lossFn} is not \code{'Binder'}}
-#'      \item{\code{param_posterior}:}{ a list containing the parametric approximation of the posterior,
-#'      suitable to be plugged in as prior for a new MCMC algorithm run}
-#'      \item{\code{mcmc_partitions}:}{ a list containing the \code{m} sampled partitions}
-#'      \item{\code{alpha}:}{ a vector of length \code{m} with the values of the \code{alpha} DP parameter}
-#'      \item{\code{index_estim}:}{ the index of the point estimate partition among the \code{m} sampled}
-#'      \item{\code{hyperG0}:}{ a list passing along the prior, i.e. the \code{hyperG0} argument}
-#'      \item{\code{logposterior_list}:}{ a list of length \code{m} containing the logposterior and its decomposition, for each sampled partition}
-#'      \item{\code{U_SS_list}:}{ a list of length \code{m} containing the containing the lists of sufficient statistics for all the mixture components,
-#'      for each sampled partition}
-#'      \item{\code{data}: a \code{d x n} matrix containing the clustered data}
-#'  }
+#'\describe{
+#'\item{\code{nb_mcmcit}:}{ an integer giving the value of \code{m}, the number of retained 
+#'sampled partitions, i.e. \code{(N - burnin)/thin}}
+#'\item{\code{burnin}:}{ an integer passing along the \code{burnin} argument}
+#'\item{\code{thin}:}{ an integer passing along the \code{thin} argument}
+#'\item{\code{lossFn}:}{ a character string passing along the \code{lossFn} argument}
+#'\item{\code{clust_distrib}:}{ a character string passing along the \code{clust_distrib} argument }
+#'\item{\code{point_estim}:}{ a \code{list} containing: \describe{
+#'    \item{\code{c_est}:}{ a vector of length \code{n}containing the point estimated clustering for each observations}
+#'    \item{\code{cost}:}{ a vector of length \code{m} containing the cost of each sampled partition}
+#'    \item{\code{Fmeas}:}{ if \code{lossFn} is \code{'F-measure'}, the \code{m x m} matrix of total F-measures for each pair of sampled partitions}
+#'    \item{\code{opt_ind}:}{ the index of the point estimate partition among the \code{m} sampled}
+#'}}
+#'\item{\code{loss}:}{ the loss for the point estimate. \code{NA} if \code{lossFn} is not \code{'Binder'}}
+#'\item{\code{param_posterior}:}{ a list containing the parametric approximation of the posterior,
+#'suitable to be plugged in as prior for a new MCMC algorithm run}
+#'\item{\code{mcmc_partitions}:}{ a list containing the \code{m} sampled partitions}
+#'\item{\code{alpha}:}{ a vector of length \code{m} with the values of the \code{alpha} DP parameter}
+#'\item{\code{index_estim}:}{ the index of the point estimate partition among the \code{m} sampled}
+#'\item{\code{hyperG0}:}{ a list passing along the prior, i.e. the \code{hyperG0} argument}
+#'\item{\code{logposterior_list}:}{ a list of length \code{m} containing the logposterior and its decomposition, for each sampled partition}
+#'\item{\code{U_SS_list}:}{ a list of length \code{m} containing the containing the lists of sufficient statistics for all the mixture components,
+#'for each sampled partition}
+#'\item{\code{data}:}{ a \code{d x n} matrix containing the clustered data}
+#'} 
 #'  
 #'
 #'@details The cost of a point estimate partition is calculated using either a pairwise
@@ -64,7 +64,7 @@
 #'@seealso \code{\link{similarityMat}} \code{\link{similarityMatC}}
 #'
 
-summary.DPMMclust <- function(object, burnin=0, thin=1, gs=NULL, lossFn="F-measure",
+summary.DPMMclust <- function(object, burnin=0, thin=1, gs=NULL, lossFn="Binder",
                               posterior_approx=FALSE, ...){
   
   x_invar <- burn.DPMMclust(object, burnin = burnin, thin=thin)
@@ -101,7 +101,7 @@ summary.DPMMclust <- function(object, burnin=0, thin=1, gs=NULL, lossFn="F-measu
   K<-length(unique(point_estim$c_est))
   if(posterior_approx){
     if(K>1){
-      param_post <- postProcess.DPMMclust(x_invar, plot=FALSE, K=K, ...)
+      param_post <- postProcess.DPMMclust(x_invar, K=K, ...)
     }else{
       param_post <- postProcess.DPMMclust(x_invar, K=1, ...)
     }
