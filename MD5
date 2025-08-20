@@ -1,7 +1,7 @@
-e479854ab02a9214a360d3552ffd5ca3 *DESCRIPTION
+156e5a20208a14704425430a3e93f436 *DESCRIPTION
 bb3ca60759f3202f1ae42e3519cd06bc *LICENSE
 c245468070fa8e7d863e76e96de252d9 *NAMESPACE
-770e9a200a3885c334fde8671cb730b8 *NEWS.md
+b2bd70ecd419759c0f24febda266bbfe *NEWS.md
 09f6a0b8512aad698a56ae4e48b9ffa3 *R/DPMGibbsN.R
 85ae0d47f64e5ce3e7109e537dc31f71 *R/DPMGibbsN_SeqPrior.R
 0490ecfddace4b9df9fffecb28266b18 *R/DPMGibbsN_parallel.R
@@ -18,7 +18,7 @@ c437f8b274a261c06ea4d40367ae1339 *R/MLE_gamma.R
 f13c9c99432ecf1959f30bcec7af0172 *R/MLE_sNiW.R
 b3732ef6a5e9ab32987063be812d775f *R/MLE_sNiW_mmEM.R
 490605403a77e246b23da0814e05c78a *R/NPflow-internal.R
-763bc7103e3f95f9a59cc28e1a92912b *R/NPflow-package.R
+f6c27b0d762e8a22048f0acf4d1b2745 *R/NPflow-package.R
 07d6c40b1c2fc986472ea05cee1de687 *R/RcppExports.R
 dc3f7250c5900b384017bdffad2e4c9e *R/SliceSampler_SkewN.R
 cfc7d5531d0d18483157103b6070f996 *R/SliceSampler_SkewN_parallel.R
@@ -66,9 +66,9 @@ c070fefe50cd0b81897fa3f1220e0dc7 *R/update_SS.R
 1fdd62ed596a3640d470d795643e8b9c *R/update_SSsn.R
 635034ff83ace07ff11f9dbddc2615a4 *R/update_SSst.R
 ac2841fd047bf719531c3d46c5c8c152 *R/wishrnd.R
-109a6d7863f11bfbd0c8bf3bf8906a21 *README.md
-7080893e02c49cd296d4424b9be55069 *build/partial.rdb
-6895f955396f43733ff0eda78ec5b871 *inst/CITATION
+f895794dd7585021c1b5c2455b4909a8 *README.md
+4454e632feb75ce4f508807d50b3b12f *build/partial.rdb
+b5fb60bbf9609406d24235bb581d9d68 *inst/CITATION
 a129a80e3e1e049713eb44aef4b84eee *man/DPMGibbsN.Rd
 23d4a83206733588ffabce04d1b66893 *man/DPMGibbsN_SeqPrior.Rd
 046c1f164d95a2a8512f49b81554dbc4 *man/DPMGibbsN_parallel.Rd
@@ -88,7 +88,7 @@ e9252eb3aa32e92fec430960db41614e *man/DPMGibbsSkewT.Rd
 1124164a2239080e2e4ba421c3a625ba *man/MLE_gamma.Rd
 7630bff60589cb3223c8f746dfeaec75 *man/MLE_sNiW.Rd
 ea94eba3a0371f27a2849089114ed3c6 *man/MLE_sNiW_mmEM.Rd
-34bb2648c2e91cc650a6113ddc30d720 *man/NPflow-package.Rd
+7f3e4b06925f885a01dde5040782b31a *man/NPflow-package.Rd
 8b6fb8ec7b883085c575908c5029bc97 *man/NuMatParC.Rd
 bce38110b2b949289f33261860b16d7e *man/burn.DPMMclust.Rd
 9f82cf4c388c6c23588dad187dce4871 *man/cluster_est_Fmeasure.Rd

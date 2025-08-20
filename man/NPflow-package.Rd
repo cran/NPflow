@@ -13,8 +13,8 @@ modeling oriented towards flow-cytometry data pre-processing applications.
 \tabular{ll}{
 Package: \tab NPflow\cr
 Type: \tab Package\cr
-Version: \tab 0.13.5\cr
-Date: \tab 2024-01-13\cr
+Version: \tab 0.13.6\cr
+Date: \tab 2025-08-20\cr
 License:\tab \href{http://www.gnu.org/licenses/lgpl.txt}{LGPL-3}\cr
 }
 The main function in this package is \code{\link{DPMpost}}.
@@ -29,6 +29,7 @@ Model-based Clustering of Flow Cytometry Data. The Annals of Applied Statistics,
 \seealso{
 Useful links:
 \itemize{
+  \item \url{http://sistm.github.io/NPflow/}
   \item Report bugs at \url{https://github.com/sistm/NPflow/issues}
 }
 
